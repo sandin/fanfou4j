@@ -26,7 +26,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package weibo4j;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1300,8 +1303,46 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @since Weibo4J 2.0.1
      */
     public Status uploadStatus(String status,ImageItem item) throws WeiboException {
-    	return new Status(http.multPartURL(getBaseURL() + "photos/upload.json",
-                new PostParameter[]{new PostParameter("status", status), new PostParameter("source", source)},item, true));
+    	return new Status(
+    			http.multPartURL(getBaseURL() + "photos/upload.json",
+                new PostParameter[]{new PostParameter("status", status), new PostParameter("source", source)},
+                item, true)
+                );
+        /*return new Status(http.multPartURL(getBaseURL() + "statuses/upload.xml",
+                new PostParameter[]{new PostParameter("status", status), new PostParameter("source", source)},item, true), this);*/
+    }
+    
+    /**
+     * upload the photo.
+     * The text will be trimed if the length of the text is exceeding 160 characters.
+     * The image suport.
+     * <br>上传照片  http://api.fanfou.com/photos/upload.[json|xml]
+     *
+     * @param status the text of your status update
+     * @return the latest status
+     * @throws WeiboException when Weibo service or network is unavailable
+     * @since Weibo4J 2.0.1
+     */
+    public Status uploadPhoto(String status,FileInputStream file) throws WeiboException, IOException, Exception {
+    	
+    	// read file to a byte array
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		int ch;
+		while((ch = file.read()) != -1 ) {
+			b.write(ch);
+		}
+		file.close();
+		byte[] bytes = b.toByteArray();
+		
+		// create ImageItem from byte array
+		// <input type="file" name="photo" value="" />
+		ImageItem imageitem = new ImageItem("photo", bytes);
+		
+    	return new Status(
+    			http.multPartURL(getBaseURL() + "photos/upload.json",
+                new PostParameter[]{new PostParameter("status", status), new PostParameter("source", source)},
+                imageitem, true)
+                );
         /*return new Status(http.multPartURL(getBaseURL() + "statuses/upload.xml",
                 new PostParameter[]{new PostParameter("status", status), new PostParameter("source", source)},item, true), this);*/
     }

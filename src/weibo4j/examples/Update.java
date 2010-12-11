@@ -62,11 +62,11 @@ public class Update {
         //System.out.println(weibo.getRateLimitStatus());
         
         // 公共消息
-        //List<Status> statuses = weibo.getPublicTimeline();
+        List<Status> statuses = weibo.getPublicTimeline();
         
-//        for (Status status : statuses) {
-//			System.out.println(status);
-//		}
+        for (Status status : statuses) {
+			System.out.println(status.getText() + " by " + status.getUser().getScreenName());
+		}
         
         GregorianCalendar calendar = new GregorianCalendar();
         String now = calendar.get(GregorianCalendar.YEAR) + "-" +
@@ -87,21 +87,12 @@ public class Update {
 			
 			
 			// 上传照片
-			FileInputStream file = new FileInputStream("fanfou.jpg");
-			ByteArrayOutputStream b = new ByteArrayOutputStream();
-			int ch;
-			while((ch = file.read()) != -1 ) {
-				b.write(ch);
-			}
-			file.close();
-			byte[] bytes = b.toByteArray();
-			
-			ImageItem imageitem = new ImageItem("image", bytes);
-			Status status2 = weibo.uploadStatus("update image test", imageitem);
+			//FileInputStream file = new FileInputStream("fanfou.jpg");
+			//Status status = weibo.uploadPhoto("fanfou.api.test.upload.image", file);
 
 			long l2 = System.currentTimeMillis();
         
-			System.out.println("Successfully updated the status to [" + status2.getText() + "].");
+			//System.out.println("Successfully updated the status to [" + status.getText() + "].");
 			System.out.println("Time elapsed: " + (l2 - l1));
                 
 			try {
@@ -110,8 +101,6 @@ public class Update {
 				e.printStackTrace();
 			}
 			
-			System.out.println(URLDecoder.decode("\u7f3a\u5c11photo\u53c2\u6570", "UTF-8"));
-		
 			// delete a comment for the status
 			//String sid = status.getId();
 			//weibo.destroyStatus(sid);
