@@ -373,7 +373,8 @@ public class Status extends WeiboResponse implements java.io.Serializable {
         if (this == obj) {
             return true;
         }
-        return obj instanceof Status && ((Status) obj).id == this.id;
+//      return obj instanceof Status && ((Status) obj).id == this.id;
+        return obj instanceof Status && this.id.equals(((Status) obj).id);
     }
 
     @Override

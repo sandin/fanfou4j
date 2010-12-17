@@ -979,6 +979,14 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
                 , null, paging, true), this);*/
     }
 
+    public List<Status> getUserTimeline(int page, int count) throws
+            WeiboException {
+    	return Status.constructStatuses(get(getBaseURL() + "statuses/user_timeline.json"
+                , null, new Paging(page, count), true));
+        /*return Status.constructStatuses(get(getBaseURL() + "statuses/user_timeline.xml"
+                , null, paging, true), this);*/
+    }
+
     /**
      * Returns the most recent statuses posted in the last 24 hours from the authenticating user.
      * <br>This method calls http://api.t.sina.com.cn/statuses/user_timeline.format
@@ -1095,6 +1103,12 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
         return Status.constructStatuses(get(getBaseURL() + "statuses/mentions.json",
                 null, true));
     }
+    
+    // since_id
+    public List<Status> getMentions(String since_id) throws WeiboException {
+        return Status.constructStatuses(get(getBaseURL() + "statuses/mentions.json",
+                "since_id", String.valueOf(since_id), true));
+    }
 
     /**
      * Returns the 20 most recent mentions (status containing @username) for the authenticating user.
@@ -1203,8 +1217,8 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @throws WeiboException when Weibo service or network is unavailable
      * @deprecated Use showStatus(long id) instead.
      */
-    public Status show(int id) throws WeiboException {
-        return showStatus((long)id);
+    public Status show(String id) throws WeiboException {
+        return showStatus((String)id);
     }
 
     /**
@@ -1233,7 +1247,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @since Weibo4J 2.0.1
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Statuses/show">statuses/show </a>
      */
-    public Status showStatus(long id) throws WeiboException {
+    public Status showStatus(String id) throws WeiboException {
 //        return new Status(get(getBaseURL() + "statuses/show/" + id + ".xml", false), this);
     	return new Status(get(getBaseURL() + "statuses/show/" + id + ".json", true));
     }
@@ -1404,6 +1418,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
 
     /**
      * Updates the user's status.
+     * 如果要使用inreplyToStatusId, 那么该status就必须得是@别人的.
      * The text will be trimed if the length of the text is exceeding 160 characters.
      * <br>发布消息  http://api.fanfou.com/statuses/update.[json|xml] 
      *

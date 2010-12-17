@@ -871,7 +871,7 @@ public class AsyncWeibo extends Weibo {
     public void showStatusAsync(long id, WeiboListener listener) {
         getDispatcher().invokeLater(new AsyncTask(SHOW_STATUS, listener, new Object[] {id}) {
             public void invoke(WeiboListener listener,Object[] args) throws WeiboException {
-                listener.gotShowStatus(showStatus( (Long) args[0]));
+                listener.gotShowStatus(showStatus( (String) args[0]));
             }
         });
     }

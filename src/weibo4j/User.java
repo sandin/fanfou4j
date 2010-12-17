@@ -60,12 +60,12 @@ public class User extends WeiboResponse implements java.io.Serializable {
     private int followersCount;
 
     private Date statusCreatedAt;
-    private long statusId = -1;
+    private String statusId = "";
     private String statusText = null;
     private String statusSource = null;
     private boolean statusTruncated = false;
-    private long statusInReplyToStatusId = -1;
-    private int statusInReplyToUserId = -1;
+    private String statusInReplyToStatusId = "";
+    private String statusInReplyToUserId = "";
     private boolean statusFavorited = false;
     private String statusInReplyToScreenName = null;
 
@@ -134,12 +134,12 @@ public class User extends WeiboResponse implements java.io.Serializable {
             if (!json.isNull("status")) {
                 JSONObject status = json.getJSONObject("status");
                 statusCreatedAt = parseDate(status.getString("created_at"), "EEE MMM dd HH:mm:ss z yyyy");
-                statusId = status.getLong("id");
+                statusId = status.getString("id");
                 statusText = status.getString("text");
                 statusSource = status.getString("source");
                 statusTruncated = status.getBoolean("truncated");
-                statusInReplyToStatusId = status.getLong("in_reply_to_status_id");
-                statusInReplyToUserId = status.getInt("in_reply_to_user_id");
+                statusInReplyToStatusId = status.getString("in_reply_to_status_id");
+                statusInReplyToUserId = status.getString("in_reply_to_user_id");
                 statusFavorited = status.getBoolean("favorited");
                 statusInReplyToScreenName = status.getString("in_reply_to_screen_name");
             }
@@ -183,12 +183,12 @@ public class User extends WeiboResponse implements java.io.Serializable {
         if (statuses.getLength() != 0) {
             Element status = (Element) statuses.item(0);
             statusCreatedAt = getChildDate("created_at", status);
-            statusId = getChildLong("id", status);
+            statusId = getChildString("id", status);
             statusText = getChildText("text", status);
             statusSource = getChildText("source", status);
             statusTruncated = getChildBoolean("truncated", status);
-            statusInReplyToStatusId = getChildLong("in_reply_to_status_id", status);
-            statusInReplyToUserId = getChildInt("in_reply_to_user_id", status);
+            statusInReplyToStatusId = getChildString("in_reply_to_status_id", status);
+            statusInReplyToUserId = getChildString("in_reply_to_user_id", status);
             statusFavorited = getChildBoolean("favorited", status);
             statusInReplyToScreenName = getChildText("in_reply_to_screen_name", status);
         }
@@ -440,7 +440,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
      *
      * @return status id or -1 if the user is protected
      */
-    public long getStatusId() {
+    public String getStatusId() {
         return statusId;
     }
 
@@ -475,7 +475,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
      * @return in_reply_to_status_id or -1 if the user is protected
      * @since 1.1.4
      */
-    public long getStatusInReplyToStatusId() {
+    public String getStatusInReplyToStatusId() {
         return statusInReplyToStatusId;
     }
 
@@ -484,7 +484,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
      * @return in_reply_to_user_id or -1 if the user is protected
      * @since 1.1.4
      */
-    public int getStatusInReplyToUserId() {
+    public String getStatusInReplyToUserId() {
         return statusInReplyToUserId;
     }
 
@@ -504,7 +504,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
      */
 
     public String getStatusInReplyToScreenName() {
-        return -1 != statusInReplyToUserId ? statusInReplyToScreenName : null;
+        return "" != statusInReplyToUserId ? statusInReplyToScreenName : null;
     }
 
         public String getProfileBackgroundColor() {
