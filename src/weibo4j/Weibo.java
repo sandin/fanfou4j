@@ -371,7 +371,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      */
     public QueryResult search(Query query) throws WeiboException {
         try{
-        return new QueryResult(get(searchBaseURL + "search.json", query.asPostParameters(), false), this);
+        return new QueryResult(get(searchBaseURL + "search/public_timeline.json", query.asPostParameters(), false), this);
         }catch(WeiboException te){
             if(404 == te.getStatusCode()){
                 return new QueryResult(query);
@@ -757,6 +757,12 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
             WeiboException {
         return Status.constructStatuses(get(getBaseURL() + "statuses/friends_timeline.xml",
                 "since_id", String.valueOf(sinceId), true), this);
+    }	
+    
+    public List<Status> getFriendsTimeline(int page, int count) throws
+    		WeiboException {
+    	Paging paging = new Paging(page, count);
+    	return Status.constructStatuses(get(getBaseURL() + "statuses/friends_timeline.json",null, paging, true));
     }
 
     /**
