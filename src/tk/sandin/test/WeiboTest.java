@@ -20,15 +20,25 @@ public class WeiboTest {
 	
 	private Weibo fanfou = new Weibo("172339248@qq.com", "19851129");
 	private String msg;
+	private static final String TO_USER_NAME = "lds2012";
+	private String AT_TO;
 
 	@Before
 	public void setUp() throws Exception {
 		msg = "test status " + new Date();
+		AT_TO = "@" + fanfou.showUser(TO_USER_NAME).getName() + " ";
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		
+	}
+	
+	@Test
+	@Ignore
+	public void testSearch() {
+		//TODO: fanfou search server is not ready.
+		assertTrue(true);
 	}
 	
 	@Test
@@ -72,7 +82,7 @@ public class WeiboTest {
 		String userid = fanfou.getUserId();
 		List<Status> status_20 = fanfou.getUserTimeline(userid);
 		
-		Assert.assertNotNull(status_20);
+		Assert.assertFalse(status_20.isEmpty());
 		Assert.assertTrue(status_20.size() > 3);
 		Assert.assertEquals(msg, status_20.get(0).getText());
 		
@@ -85,31 +95,7 @@ public class WeiboTest {
 			fanfou.destroyStatus(s.getId());
 		}
 	}
-	
-	@Test
-	public void testUpdateStatus() throws Exception {
 
-		Status status = fanfou.updateStatus(msg);
-		String text = status.getText();
-		String id = status.getId();
-				
-		assertTrue(msg.equals(text));
-		
-		User user = fanfou.showUser("lds2012");
-//		System.out.println(user.getStatusText());
-		
-		// reply to someone
-		Status repay = fanfou.updateStatus("@" + user.getName() + " " + msg, user.getStatusId());
-		System.out.println(repay);
-		System.out.println(user.getStatusId());
-		
-		//Assert.assertEquals(user.getId(), repay.getInReplyToUserId());
-		
-		// clean up
-		fanfou.destroyStatus(id);
-	}
-	
-	
 	@Test
 	@Ignore
 	public void testShowStatus() throws Exception {
@@ -128,7 +114,6 @@ public class WeiboTest {
 	public void testGetMentions() throws Exception {
 		User myself = fanfou.showUser(fanfou.getUserId());
 		
-		
 		// repay to user(myself)
 		String message = "@" + myself.getScreenName()  + " "+ msg;
 		Status new_mention = fanfou.updateStatus(message);
@@ -139,12 +124,12 @@ public class WeiboTest {
 			//System.out.println(s.getText());
 		}
 		
-		Assert.assertNotNull(status);
+		Assert.assertFalse(status.isEmpty());
 		Assert.assertEquals(message, status.get(0).getText());
 		assertTrue(new_mention.equals(status.get(0)));
 		
 		// update the newest status
-		Status newest_mention = fanfou.updateStatus(message + "other message");
+		Status newest_mention = fanfou.updateStatus(message + " new message");
 		// get the newest mentions list
 		List<Status> new_mentions = fanfou.getMentions(new_mention.getId());
 		
@@ -152,14 +137,82 @@ public class WeiboTest {
 		Assert.assertEquals(1, new_mentions.size());
 		assertTrue(new_mentions.get(0).equals(newest_mention));
 		
-		
+		// clearup
+		fanfou.destroyStatus(new_mention.getId());
+		fanfou.destroyStatus(newest_mention.getId());
 	}
-
+	
 	@Test
 	@Ignore
-	public void testSearch() {
-		//TODO: fanfou search server is not ready.
-		assertTrue(true);
+	public void testUpdateStatus() throws Exception {
+
+		Status status = fanfou.updateStatus(msg);
+		String text = status.getText();
+		String id = status.getId();
+				
+		assertTrue(msg.equals(text));
+		
+		User user = fanfou.showUser(TO_USER_NAME);
+//		System.out.println(user.getStatusText());
+		
+		// reply to someone
+		Status repay = fanfou.updateStatus("@" + user.getName() + " " + msg, user.getStatusId());
+		Assert.assertEquals(
+			user.getStatusId(),
+			repay.getInReplyToStatusId()
+		);
+		Assert.assertEquals(user.getId(), repay.getInReplyToUserId());
+		
+		// clean up
+		fanfou.destroyStatus(id);
+		fanfou.destroyStatus(repay.getId());
 	}
+	
+	@Test
+	@Ignore
+	public void testRepost() throws Exception {
+		User user = fanfou.showUser(fanfou.getUserId());
+		String repost_status_id = user.getStatusId();
+		String message = msg + "repost to " + TO_USER_NAME;
+		
+		Status repost = fanfou.repost(repost_status_id, message);
+	}
+	
+	@Test
+	public void testDestroyStatus() throws Exception {
+		
+		fanfou.updateStatus(msg);
+		fanfou.updateStatus(msg);
+		
+		User myself = fanfou.showUser(fanfou.getUserId());
+		List<Status> status = fanfou.getUserTimeline();
+		int all_status_count = myself.getStatusesCount();
+		int page = (int) Math.ceil( all_status_count / 20.0 );
+		
+		int delete_count = 0;
+		
+		// delete more status as can
+		for (int i = 1; i <= page; i++) {
+			List<Status> status_per = fanfou.getUserTimeline(i, 20);
+			for (Status s : status_per) {
+				System.out.println(s.getText());
+				fanfou.destroyStatus(s.getId());
+				delete_count++;
+			}
+		}
+		
+		List<Status> status_left = fanfou.getUserTimeline();
+		System.out.println(status.size() - status_left.size() == delete_count );
+		System.out.println(status.size());
+		System.out.println(status_left.size());
+		System.out.println(delete_count);
+		Assert.assertTrue(status.size() - status_left.size() == delete_count );
+		
+		// update one status in case 
+		fanfou.updateStatus("clean up on " + new Date());
+	}
+	
+	
+	
 
 }

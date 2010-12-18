@@ -3431,16 +3431,36 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
 
     /**
      * Return a status of repost
-     * @param sid id specifies the ID of status
-     * @param status message
+     * @param to_user_name repost status's user name
+     * @param repost_status_id repost status id 
+     * @param repost_status_text repost status text 
+     * @param new_status the new status text 
      * @return a single status
      * @throws WeiboException when Weibo service or network is unavailable
      * @since Weibo4J 2.0.10
      */
-    public Status repost(String sid,String status) throws WeiboException {
-    	return new Status(http.post(getBaseURL() + "statuses/repost.json",
-                new PostParameter[]{new PostParameter("id", sid),
-									new PostParameter("status", status)}, true));
+    public Status repost(String to_user_name, String repost_status_id, 
+    			String repost_status_text, String new_status) throws WeiboException {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(new_status);
+    	sb.append(" ");
+    	sb.append("转：@");
+    	sb.append(to_user_name);
+    	sb.append(" ");
+    	sb.append(repost_status_text);
+    	sb.append(" ");
+    	String message = sb.toString();
+    	return new Status(http.post(getBaseURL() + "statuses/update.json",
+                new PostParameter[]{new PostParameter("repost_status_id", repost_status_id),
+									new PostParameter("status", message)}, true));
+    }
+    
+    public Status repost(String repost_status_id, String new_status) throws WeiboException {
+    	Status repost_to = showStatus(repost_status_id);
+    	String to_user_name = repost_to.getUser().getName();
+    	String repost_status_text = repost_to.getText();
+    	
+       	return repost(to_user_name, repost_status_id, repost_status_text, new_status);
     }
 
     /**
