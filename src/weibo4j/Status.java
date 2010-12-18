@@ -59,6 +59,7 @@ public class Status extends WeiboResponse implements java.io.Serializable {
     private String thumbnail_pic;
     private String bmiddle_pic;
     private String original_pic;
+    private String photo_url;
     private RetweetDetails retweetDetails;
     private static final long serialVersionUID = 1608000492860584608L;
 
@@ -86,9 +87,19 @@ public class Status extends WeiboResponse implements java.io.Serializable {
 			inReplyToStatusId = getString("in_reply_to_status_id", json);
 			inReplyToUserId = getString("in_reply_to_user_id", json);
 			isFavorited = getBoolean("favorited", json);
-			thumbnail_pic = json.getString("thumbnail_pic");
-			bmiddle_pic = json.getString("bmiddle_pic");
-			original_pic = json.getString("original_pic");
+//			System.out.println("json photo" + json.getJSONObject("photo"));
+			if(!json.isNull("photo")) {
+//				System.out.println("not null" + json.getJSONObject("photo"));
+				Photo photo = new Photo(json.getJSONObject("photo"));
+				thumbnail_pic = photo.getThumbnail_pic();
+				bmiddle_pic = photo.getBmiddle_pic();
+				original_pic = photo.getOriginal_pic();
+			} else {
+//				System.out.println("Null");
+				thumbnail_pic = "";
+				bmiddle_pic = "";
+				original_pic = "";
+			}
 			if(!json.isNull("user"))
 				user = new User(json.getJSONObject("user"));
 			inReplyToScreenName=json.getString("inReplyToScreenName");
@@ -114,9 +125,16 @@ public class Status extends WeiboResponse implements java.io.Serializable {
         inReplyToStatusId = getString("in_reply_to_status_id", json);
         inReplyToUserId = getString("in_reply_to_user_id", json);
         inReplyToScreenName=json.getString("in_reply_to_screen_name");
-        thumbnail_pic = json.getString("thumbnail_pic");
-		bmiddle_pic = json.getString("bmiddle_pic");
-		original_pic = json.getString("original_pic");
+        if(!json.isNull("photo")) {
+			Photo photo = new Photo(json.getJSONObject("photo"));
+			thumbnail_pic = photo.getThumbnail_pic();
+			bmiddle_pic = photo.getBmiddle_pic();
+			original_pic = photo.getOriginal_pic();
+		} else {
+			thumbnail_pic = "";
+			bmiddle_pic = "";
+			original_pic = "";
+		}
         user = new User(json.getJSONObject("user"));
     }
     public Status(String str) throws WeiboException, JSONException {
@@ -131,9 +149,16 @@ public class Status extends WeiboResponse implements java.io.Serializable {
         inReplyToStatusId = getString("in_reply_to_status_id", json);
         inReplyToUserId = getString("in_reply_to_user_id", json);
         isFavorited = getBoolean("favorited", json);
-        thumbnail_pic = json.getString("thumbnail_pic");
-		bmiddle_pic = json.getString("bmiddle_pic");
-		original_pic = json.getString("original_pic");
+        if(!json.isNull("photo")) {
+			Photo photo = new Photo(json.getJSONObject("photo"));
+			thumbnail_pic = photo.getThumbnail_pic();
+			bmiddle_pic = photo.getBmiddle_pic();
+			original_pic = photo.getOriginal_pic();
+		} else {
+			thumbnail_pic = "";
+			bmiddle_pic = "";
+			original_pic = "";
+		}
         user = new User(json.getJSONObject("user"));
     }
 

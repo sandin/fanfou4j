@@ -26,7 +26,6 @@ public class GetFriends {
 						
 						System.out.println("Successfully get Friends to [" + list + "].");
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 	            System.exit(0);

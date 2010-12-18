@@ -1,7 +1,8 @@
-package tk.sandin.test;
+package weibo4j;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,10 +12,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import weibo4j.Status;
-import weibo4j.User;
-import weibo4j.Weibo;
 
 public class WeiboTest {
 	
@@ -34,13 +31,7 @@ public class WeiboTest {
 		
 	}
 	
-	@Test
-	@Ignore
-	public void testSearch() {
-		//TODO: fanfou search server is not ready.
-		assertTrue(true);
-	}
-	
+
 	@Test
 	@Ignore
 	public void testGetPublicTimeLine() throws Exception{
@@ -87,8 +78,8 @@ public class WeiboTest {
 		Assert.assertEquals(msg, status_20.get(0).getText());
 		
 		// test getUserTimeline(page, count)
-		List<Status> status_2 = fanfou.getUserTimeline(1, 10);
-		Assert.assertEquals(10, status_2.size());
+		List<Status> status_2 = fanfou.getUserTimeline(1, 3);
+		Assert.assertEquals(3, status_2.size());
 		
 		// clear up
 		for (Status s : update) {
@@ -120,9 +111,9 @@ public class WeiboTest {
 		
 		// get mention status of user
 		List<Status> status = fanfou.getMentions();
-		for (Status s : status) {
-			//System.out.println(s.getText());
-		}
+//		for (Status s : status) {
+//			System.out.println(s.getText());
+//		}
 		
 		Assert.assertFalse(status.isEmpty());
 		Assert.assertEquals(message, status.get(0).getText());
@@ -173,14 +164,30 @@ public class WeiboTest {
 	public void testRepost() throws Exception {
 		User user = fanfou.showUser(fanfou.getUserId());
 		String repost_status_id = user.getStatusId();
+		String repost_status_text = user.getStatusText();
 		String message = msg + "repost to " + TO_USER_NAME;
 		
 		Status repost = fanfou.repost(repost_status_id, message);
+		String text = repost.getText();
+		
+//		System.out.println(text);
+//		System.out.println(repost);
+//		System.out.println(repost_status_text);
+//		System.out.println("123".contains("123"));
+		
+		// new status contains the origin status text
+		assertTrue(text.contains(repost_status_text));
+		assertTrue(text.contains("@" + user.getName()));
+		
+		// clean up
+		fanfou.destroyStatus(repost.getId());
 	}
 	
 	@Test
+	@Ignore
 	public void testDestroyStatus() throws Exception {
 		
+		// update some status in case have no status
 		fanfou.updateStatus(msg);
 		fanfou.updateStatus(msg);
 		
@@ -191,28 +198,83 @@ public class WeiboTest {
 		
 		int delete_count = 0;
 		
-		// delete more status as can
+		// delete status as much as API can
 		for (int i = 1; i <= page; i++) {
 			List<Status> status_per = fanfou.getUserTimeline(i, 20);
 			for (Status s : status_per) {
-				System.out.println(s.getText());
+//				System.out.println(s.getText());
 				fanfou.destroyStatus(s.getId());
 				delete_count++;
 			}
 		}
 		
 		List<Status> status_left = fanfou.getUserTimeline();
-		System.out.println(status.size() - status_left.size() == delete_count );
-		System.out.println(status.size());
-		System.out.println(status_left.size());
-		System.out.println(delete_count);
+//		System.out.println(status.size() - status_left.size() == delete_count );
+//		System.out.println(status.size());
+//		System.out.println(status_left.size());
+//		System.out.println(delete_count);
 		Assert.assertTrue(status.size() - status_left.size() == delete_count );
 		
 		// update one status in case 
 		fanfou.updateStatus("clean up on " + new Date());
 	}
 	
+	@Test
+	@Ignore
+	public void testUploadPhoto() throws Exception {
+		// 上传照片
+		FileInputStream file = new FileInputStream("fanfou.jpg");
+		// big image for test origin image url
+//		FileInputStream file = new FileInputStream("big_img.jpg");
+		Status status = fanfou.uploadPhoto(msg, file);
+//		System.out.println(status);
+		
+		String original_pic = status.getOriginal_pic();
+		String bmiddle_pic = status.getBmiddle_pic();
+		String thumbail_pic = status.getThumbnail_pic();
+		
+		assertTrue(!original_pic.isEmpty());
+		assertTrue(!bmiddle_pic.isEmpty());
+		assertTrue(!thumbail_pic.isEmpty());
+		
+		fanfou.destroyStatus(status.getId());
+	}
 	
+	@Test
+	@Ignore
+	public void testSearch() throws Exception {
+		
+		QueryResult result = fanfou.search(new Query("哈"));
+		
+		// search result is not null
+		List<Status> status = result.getStatus();
+		assertTrue(!status.isEmpty());
 	
+//		System.out.println(status.size());
+//		for (Status s : status) {
+//			System.out.println(s.getText());
+//		}
+	}
+		
+	
+	@Test
+	@Ignore
+	//TODO: fanfou API's trends server is not ready. 
+	public void testGetTrends() throws Exception {
+		Trends trends = fanfou.getTrends();
+		assertTrue(trends.getAsOf() instanceof Date);
+		
+		Trend[] trend_array = trends.getTrends();
+//		for (Trend t : trend_array) {
+//			System.out.print(t);
+//		}
+		
+		// get nothing 'cause this API is down 
+		assertTrue( trend_array.length == 0 );
+	}
+	
+	@Test
+	@Ignore
+	public void test(){}
 
 }

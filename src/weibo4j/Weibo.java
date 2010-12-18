@@ -371,7 +371,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      */
     public QueryResult search(Query query) throws WeiboException {
         try{
-        return new QueryResult(get(searchBaseURL + "search/public_timeline.json", query.asPostParameters(), false), this);
+        	return new QueryResult(get(searchBaseURL + "search/public_timeline.json", query.asPostParameters(), false), this);
         }catch(WeiboException te){
             if(404 == te.getStatusCode()){
                 return new QueryResult(query);

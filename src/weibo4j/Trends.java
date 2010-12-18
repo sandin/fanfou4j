@@ -115,7 +115,8 @@ public class Trends extends WeiboResponse implements Comparable<Trends> {
         if (asOfStr.length() == 10) {
             parsed = new Date(Long.parseLong(asOfStr) * 1000);
         } else {
-            parsed = WeiboResponse.parseDate(asOfStr, "EEE, d MMM yyyy HH:mm:ss z");
+//          parsed = WeiboResponse.parseDate(asOfStr, "EEE, d MMM yyyy HH:mm:ss z");
+            parsed = WeiboResponse.parseDate(asOfStr, "EEE MMM WW HH:mm:ss z yyyy");
         }
         return parsed;
     }

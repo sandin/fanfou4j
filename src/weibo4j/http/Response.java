@@ -198,7 +198,7 @@ public class Response {
             throw new WeiboException(jsone.getMessage() + ":" + this.responseAsString, jsone);
         }
     }
-
+    
     /**
      * Returns the response body as sinat4j.org.json.JSONArray.<br>
      * Disconnects the internal HttpURLConnection silently.

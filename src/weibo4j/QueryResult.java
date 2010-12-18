@@ -50,30 +50,22 @@ public class QueryResult extends WeiboResponse {
     private double completedIn;
     private int page;
     private String query;
-    private List<Tweet> tweets;
+    private List<Status> tweets;
     private static final long serialVersionUID = -9059136565234613286L;
 
     /*package*/ QueryResult(Response res, WeiboSupport weiboSupport) throws WeiboException {
         super(res);
-        JSONObject json = res.asJSONObject();
+        // 饭否search API直接返回 "[{JSONObejet},{JSONObejet},{JSONObejet}]"的JSONArray
+        //System.out.println("TAG " + res.asString());
+        JSONArray array = res.asJSONArray();
         try {
-            sinceId = json.getLong("since_id");
-            maxId = json.getLong("max_id");
-            refreshUrl = getString("refresh_url", json, true);
-
-            resultsPerPage = json.getInt("results_per_page");
-            warning = getString("warning", json, false);
-            completedIn = json.getDouble("completed_in");
-            page = json.getInt("page");
-            query = getString("query", json, true);
-            JSONArray array = json.getJSONArray("results");
-            tweets = new ArrayList<Tweet>(array.length());
+            tweets = new ArrayList<Status>(array.length());
             for (int i = 0; i < array.length(); i++) {
                 JSONObject tweet = array.getJSONObject(i);
-                tweets.add(new Tweet(tweet, weiboSupport));
+                tweets.add(new Status(tweet));
             }
         } catch (JSONException jsone) {
-            throw new WeiboException(jsone.getMessage() + ":" + json.toString(), jsone);
+            throw new WeiboException(jsone.getMessage() + ":" + array.toString(), jsone);
         }
     }
     /*package*/ QueryResult(Query query) throws WeiboException {
@@ -81,7 +73,7 @@ public class QueryResult extends WeiboResponse {
         sinceId = query.getSinceId();
         resultsPerPage = query.getRpp();
         page = query.getPage();
-        tweets = new ArrayList<Tweet>(0);
+        tweets = new ArrayList<Status>(0);
     }
 
     public long getSinceId() {
@@ -126,7 +118,7 @@ public class QueryResult extends WeiboResponse {
         return query;
     }
 
-    public List<Tweet> getTweets() {
+    public List<Status> getStatus() {
         return tweets;
     }
 
