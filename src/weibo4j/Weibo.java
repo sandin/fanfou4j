@@ -1545,7 +1545,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * Returns extended information of a given user, specified by ID or screen name as per the required id parameter below.  This information includes design settings, so third party developers can theme their widgets according to a given user's preferences.
      * <br>This method calls http://api.t.sina.com.cn/users/show.format
      *
-     * @param id the ID or screen name of the user for whom to request the detail
+     * @param id the ID of the user for whom to request the detail
      * @return User
      * @throws WeiboException when Weibo service or network is unavailable
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Users/show">users/show </a>
@@ -1554,8 +1554,12 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
     public User showUser(String id) throws WeiboException {
        /* return new User(get(getBaseURL() + "users/show/" + id + ".xml"
                 , http.isAuthenticationEnabled()), this);*/
-    	 return new User(get(getBaseURL() + "users/show/" + id + ".json"
-                 , http.isAuthenticationEnabled()).asJSONObject());
+//    	 return new User(get(getBaseURL() + "users/show/" +  id + ".json" 
+//                 , http.isAuthenticationEnabled()).asJSONObject());
+    	 return new User(get(getBaseURL() + "users/show.json" 
+                 , new PostParameter[]{
+    		 		new PostParameter("id", id)
+    	 		 }, http.isAuthenticationEnabled()).asJSONObject());
     }
 
     /* User Methods */
@@ -1584,7 +1588,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      */
     public List<User> getFriendsStatuses() throws WeiboException {
 //        return User.constructUsers(get(getBaseURL() + "statuses/friends.xml", true), this);
-    	return User.constructResult(get(getBaseURL() + "statuses/friends.json", true));
+    	return User.constructResult(get(getBaseURL() + "users/friends.json", true));
     }
 
     /**
@@ -1615,7 +1619,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
     public List<User> getFriendsStatuses(Paging paging) throws WeiboException {
         /*return User.constructUsers(get(getBaseURL() + "statuses/friends.xml", null,
                 paging, true), this);*/
-    	return User.constructUsers(get(getBaseURL() + "statuses/friends.json", null,
+    	return User.constructUsers(get(getBaseURL() + "users/friends.json", null,
                 paging, true));
     }
 
@@ -1660,7 +1664,8 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
     public List<User> getFriendsStatuses(String id) throws WeiboException {
         /*return User.constructUsers(get(getBaseURL() + "statuses/friends/" + id + ".xml"
                 , false), this);*/
-    	return User.constructUsers(get(getBaseURL() + "statuses/friends/" + id + ".json"
+    	return User.constructUsers(get(getBaseURL() + "users/friends.json", 
+    			new PostParameter[] {new PostParameter("id", id)}
                 , false));
     }
 
@@ -1685,7 +1690,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * <br>This method calls http://api.t.sina.com.cn/statuses/friends.format
      *
      * @param id the ID or screen name of the user for whom to request a list of friends
-     * @param paging controls pagination
+     * @param paging controls pagination (饭否API 默认返回 100 条/页)
      * @return the list of friends
      * @throws WeiboException when Weibo service or network is unavailable
      * @since Weibo4J 2.0.9
@@ -1694,7 +1699,8 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
     public List<User> getFriendsStatuses(String id, Paging paging) throws WeiboException {
        /* return User.constructUsers(get(getBaseURL() + "statuses/friends/" + id + ".xml"
                 , null, paging, false), this);*/
-    	return User.constructUsers(get(getBaseURL() + "statuses/friends/" + id + ".json"
+    	return User.constructUsers(get(getBaseURL() + "users/friends.json", 
+    			new PostParameter[] {new PostParameter("id", id)}, paging
                 , false));
     }
 
@@ -1806,7 +1812,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * Returns the authenticating user's followers, each with current status inline. They are ordered by the order in which they joined Weibo (this is going to be changed).
      * <br>This method calls http://api.t.sina.com.cn/statuses/followers.format
      *
-     * @param id The ID or screen name of the user for whom to request a list of followers.
+     * @param id The ID (not screen name) of the user for whom to request a list of followers.
      * @return List
      * @throws WeiboException when Weibo service or network is unavailable
      * @since Weibo4J 2.0.9

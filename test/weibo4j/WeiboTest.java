@@ -1,17 +1,24 @@
 package weibo4j;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.FileInputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.notification.Failure;
 
 public class WeiboTest {
 	
@@ -275,6 +282,166 @@ public class WeiboTest {
 	
 	@Test
 	@Ignore
-	public void test(){}
+	public void testGetFirendStatus() throws Exception {
+		List<User> users = fanfou.getFriendsStatuses();
+		
+		// The user has one friend at least
+		assertTrue(users.size() > 1);
+		assertTrue(! users.get(0).getId().isEmpty());
+		
+		// all users' name
+//		for (User u : users) {
+//			System.out.println(u.getName());
+//		}
+		
+		// Get the other user's friends 
+		User san = fanfou.showUser(TO_USER_NAME);
+		
+		// Test by user id
+		
+		List<User> users_by_id = fanfou.getFriendsStatuses(san.getId());
+		
+		assertTrue(users_by_id.size() > 1);
+		for (User u : users_by_id) {
+//			System.out.println(u.getName());
+			assertTrue(! u.getName().isEmpty() );
+		}
+		
+		// Test by user id and paging
+		
+		User fan = fanfou.showUser("wangxing");
+		assertTrue(! fan.getName().isEmpty());
+		
+	    int friend_count = fan.getFriendsCount();
+		
+		List<User> users_by_page_1 = fanfou.getFriendsStatuses(fan.getId(), 
+				new Paging(1));
+		
+		// All friends' name
+//		for (User u : users_by_page_1 ) {
+//			System.out.println(u.getName());
+//		}
+		
+		// The user(王兴) has 50 friends at least
+		System.out.println(users_by_page_1.size());
+		assertTrue( users_by_page_1.size() > 50 );
+	}
+	
+	@Test
+	@Ignore
+	public void testGetFollowersStatuses() throws Exception {
+		
+		// default user 
+		List<User> followers = fanfou.getFollowersStatuses();
+		
+		// I only have few followers(more then one)
+//		assertTrue(followers.size() > 1);
+		
+		// User(fanfou)
+		User fan = fanfou.showUser("fanfou");
+		
+		List<User> followers_of_fanfou = fanfou.getFollowersStatuses(fan.getId());
+		List<User> followers_of_fanfou_page_2 = fanfou.getFollowersStatuses(fan.getId(), new Paging(2));
+		
+		// He has a lot of followers
+		assertTrue(followers_of_fanfou.size() > 50);
+		assertTrue(! followers_of_fanfou.get(5).getName().isEmpty());
+		
+		// He definitely has two page of followers
+		assertTrue(followers_of_fanfou_page_2.size() > 50);
+	}
 
+	@Test
+	//@Ignore
+	public void testShowUser() throws Exception {
+		
+		// update a status for test user's last status
+		fanfou.updateStatus(msg);
+		
+		// need to test(not all)
+		Map<String, Object> expect = new HashMap<String, Object>();
+		expect.put("id", "aFanfou");
+		expect.put("name", "aFanfou");
+		expect.put("screen_name", "aFanfou");
+		expect.put("location", "湖北 武汉");
+		expect.put("gender", "男");
+		expect.put("birthday", "2011-01-01");
+		expect.put("description", "fanfou android app");
+		expect.put("url", new URL("http://www.sandin.tk"));
+		expect.put("created_at", new Date("Fri Dec 10 06:41:43 +0000 2010"));
+		expect.put("utc_offset", 28800);
+		expect.put("following", false);
+		expect.put("status_text", msg);
+		expect.put("is_protected", false);
+		expect.put("notifications", false);
+		
+		// not for sure
+		expect.put("profile_image_url", new URL("http://avatar1.fanfou.com/s0/00/00/00.jpg")); //default photo
+		expect.put("source", "API");
+//		expect.put("friends_count", 3);
+//		expect.put("followers_count", 0);
+//		expect.put("favourites_count", 0);
+//		expect.put("statuses_count", 16);
+		
+		// get user info
+		User myself = fanfou.showUser(fanfou.getUserId());
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("id", myself.getId());
+		map.put("screen_name", myself.getScreenName());
+		map.put("location",  myself.getLocation());
+		map.put("gender", myself.getGender());
+		map.put("birthday", myself.getBirthday());
+		map.put("description",  myself.getDescription());
+		map.put("profile_image_url", myself.getProfileImageURL());
+		map.put("url", myself.getURL());
+		map.put("followers_count", myself.getFollowersCount());
+		map.put("favourites_count",  myself.getFavouritesCount());
+		map.put("statuses_count", myself.getStatusesCount());
+		map.put("is_protected",  myself.isProtected());
+		map.put("created_at", myself.getCreatedAt());
+		map.put("following", myself.isFollowing());
+		map.put("notifications", myself.isNotificationEnabled());
+		map.put("utc_offset", myself.getUtcOffset());
+		
+		//The last status
+		map.put("status_created_at", myself.getStatusCreatedAt());
+		map.put("status_id", myself.getStatusId());
+		map.put("status_text", myself.getStatusText());
+		map.put("status_source", myself.getStatusSource());
+		map.put("status_trencated", myself.isStatusTruncated());
+		map.put("status_in_reply_to_status_id", myself.getStatusInReplyToStatusId());
+		map.put("status_in_reply_to_user_id", myself.getStatusInReplyToUserId());
+		map.put("status_in_reply_to_screen_name", myself.getStatusInReplyToScreenName());
+		map.put("status_favorited", myself.isStatusFavorited());
+		
+		// TEST ALL
+		Iterator it = map.keySet().iterator();
+		while (it.hasNext()) {
+			String key = (String) it.next();
+			Object value = map.get(key);
+			Object expect_value = expect.get(key);
+			if (value != null && expect_value != null ) {
+				assertTrue(expect.get(key).equals(value));
+//				System.out.println(expect.get(key).equals(value));
+//				System.out.println(expect_value);
+//				System.out.println(value);
+//				System.out.println("--------------------------------");
+			} else if ( value == null ) {
+//				System.out.println(key + " is NULL...............");
+//				System.out.println("--------------------------------");
+			} else if (expect_value == null) {
+//				System.out.println(key + " is not been tested.");
+//				System.out.println("--------------------------------");
+			} else {
+//				System.out.println(key + " [skip].");
+//				System.out.println("--------------------------------");
+				fail(key + " is skip.");
+			}
+		}
+	}
+	
+	@Test
+	@Ignore
+	public void test() throws Exception {}
 }

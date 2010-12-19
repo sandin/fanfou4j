@@ -54,6 +54,8 @@ public class User extends WeiboResponse implements java.io.Serializable {
     private String screenName;
     private String location;
     private String description;
+    private String birthday;
+    private String gender;
     private String profileImageUrl;
     private String url;
     private boolean isProtected;
@@ -110,6 +112,8 @@ public class User extends WeiboResponse implements java.io.Serializable {
             name = json.getString("name");
             screenName = json.getString("screen_name");
             location = json.getString("location");
+            gender = json.getString("gender");
+            birthday = json.getString("birthday");
             description = json.getString("description");
             profileImageUrl = json.getString("profile_image_url");
             url = json.getString("url");
@@ -210,6 +214,14 @@ public class User extends WeiboResponse implements java.io.Serializable {
      */
     public String getName() {
         return name;
+    }
+    
+    public String getGender() {
+    	return gender;
+    }
+    
+    public String getBirthday() {
+    	return birthday;
     }
 
     /**
