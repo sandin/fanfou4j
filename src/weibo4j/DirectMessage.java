@@ -44,10 +44,10 @@ import weibo4j.org.json.JSONObject;
  * @author Yusuke Yamamoto - yusuke at mac.com
  */
 public class DirectMessage extends WeiboResponse implements java.io.Serializable {
-    private int id;
+    private String id;
     private String text;
-    private int sender_id;
-    private int recipient_id;
+    private String sender_id;
+    private String recipient_id;
     private Date created_at;
     private String sender_screen_name;
     private String recipient_screen_name;
@@ -64,16 +64,19 @@ public class DirectMessage extends WeiboResponse implements java.io.Serializable
     /*modify by sycheng add json call*/
     /*package*/DirectMessage(JSONObject json) throws WeiboException {
         try {
-			id = json.getInt("id");
+        	
+			id = json.getString("id");
 			text = json.getString("text");
-			sender_id = json.getInt("sender_id");
-			recipient_id = json.getInt("recipient_id");
+			sender_id = json.getString("sender_id");
+			recipient_id = json.getString("recipient_id");
 			created_at = parseDate(json.getString("created_at"), "EEE MMM dd HH:mm:ss z yyyy");
 			sender_screen_name = json.getString("sender_screen_name");
 			recipient_screen_name = json.getString("recipient_screen_name");
 			
 			if(!json.isNull("sender"))
 				sender = new User(json.getJSONObject("sender"));
+			if(!json.isNull("recipient"))
+				recipient = new User(json.getJSONObject("recipient"));
 		} catch (JSONException jsone) {
 			throw new WeiboException(jsone.getMessage() + ":" + json.toString(), jsone);
 		}
@@ -81,21 +84,24 @@ public class DirectMessage extends WeiboResponse implements java.io.Serializable
     }
     
     private void init(Response res, Element elem, Weibo weibo) throws WeiboException{
-        ensureRootNodeNameIs("direct_message", elem);
+        
+
+    	ensureRootNodeNameIs("direct_message", elem);
         sender = new User(res, (Element) elem.getElementsByTagName("sender").item(0),
                 weibo);
         recipient = new User(res, (Element) elem.getElementsByTagName("recipient").item(0),
                 weibo);
-        id = getChildInt("id", elem);
+        id = getChildString("id", elem);
         text = getChildText("text", elem);
-        sender_id = getChildInt("sender_id", elem);
-        recipient_id = getChildInt("recipient_id", elem);
+        sender_id = getChildString("sender_id", elem);
+        recipient_id = getChildString("recipient_id", elem);
         created_at = getChildDate("created_at", elem);
         sender_screen_name = getChildText("sender_screen_name", elem);
         recipient_screen_name = getChildText("recipient_screen_name", elem);
+
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -103,11 +109,11 @@ public class DirectMessage extends WeiboResponse implements java.io.Serializable
         return text;
     }
 
-    public int getSenderId() {
+    public String getSenderId() {
         return sender_id;
     }
 
-    public int getRecipientId() {
+    public String getRecipientId() {
         return recipient_id;
     }
 
@@ -187,7 +193,7 @@ public class DirectMessage extends WeiboResponse implements java.io.Serializable
 
     @Override
     public int hashCode() {
-        return id;
+        return id.hashCode();
     }
 
     @Override
@@ -198,7 +204,7 @@ public class DirectMessage extends WeiboResponse implements java.io.Serializable
         if (this == obj) {
             return true;
         }
-        return obj instanceof DirectMessage && ((DirectMessage) obj).id == this.id;
+        return obj instanceof DirectMessage && ((DirectMessage) obj).id.equals(this.id);
     }
 
     @Override

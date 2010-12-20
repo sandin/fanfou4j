@@ -626,7 +626,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
         if (this == obj) {
             return true;
         }
-        return obj instanceof User && ((User) obj).id == this.id;
+        return obj instanceof User && ((User) obj).id.equals(this.id);
     }
 
     @Override

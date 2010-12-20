@@ -1652,10 +1652,10 @@ public class AsyncWeibo extends Weibo {
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/destroy">Weibo API Wiki / Weibo REST API Method: direct_messages destroy</a>
      * @deprecated Use destroyDirectMessageAsync(int id, WeiboListener listener) instead
      */
-    public void deleteDirectMessageAsync(int id, WeiboListener listener) {
+    public void deleteDirectMessageAsync(String id, WeiboListener listener) {
         getDispatcher().invokeLater(new AsyncTask(DESTROY_DIRECT_MESSAGES, listener, new Object[] {id}) {
             public void invoke(WeiboListener listener,Object[] args) throws WeiboException {
-                listener.deletedDirectMessage(deleteDirectMessage((Integer) args[0]));
+                listener.deletedDirectMessage(deleteDirectMessage((String) args[0]));
             }
         });
     }
@@ -1668,10 +1668,10 @@ public class AsyncWeibo extends Weibo {
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/destroy">Weibo API Wiki / Weibo REST API Method: direct_messages destroy</a>
      * @since Weibo4J 2.0.1
      */
-    public void destroyDirectMessageAsync(int id, WeiboListener listener) {
+    public void destroyDirectMessageAsync(String id, WeiboListener listener) {
         getDispatcher().invokeLater(new AsyncTask(DESTROY_DIRECT_MESSAGES, listener, new Object[] {id}) {
             public void invoke(WeiboListener listener,Object[] args) throws WeiboException {
-                listener.destroyedDirectMessage(destroyDirectMessage((Integer) args[0]));
+                listener.destroyedDirectMessage(destroyDirectMessage((String) args[0]));
             }
         });
     }
@@ -1682,10 +1682,10 @@ public class AsyncWeibo extends Weibo {
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/destroy">Weibo API Wiki / Weibo REST API Method: direct_messages destroy</a>
      * @since Weibo4J 2.0.1
      */
-    public void destroyDirectMessageAsync(int id) {
+    public void destroyDirectMessageAsync(String id) {
         getDispatcher().invokeLater(new AsyncTask(DESTROY_DIRECT_MESSAGES, new WeiboAdapter(), new Object[] {id}) {
             public void invoke(WeiboListener listener,Object[] args) throws WeiboException {
-                listener.destroyedDirectMessage(destroyDirectMessage((Integer) args[0]));
+                listener.destroyedDirectMessage(destroyDirectMessage((String) args[0]));
             }
         });
     }

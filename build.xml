@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<project name="kker" default="compile">
+	
+
+	
+	<property file="build.properties"></property>
+	<!--领域对象目录-->
+	<property name="java.dir" location="src"></property>
+	<!--测试对象目录-->
+	<property name="test.dir" location="test"></property>
+	<!--class文件目录-->
+	<property name="target.dir" location="target"></property>
+	<!--打印报告文件目录-->
+	<property name="target.report.dir" location="${target.dir}/report"></property>
+	<!--class文件目录-->
+	<property name="target.classes.java.dir" location="${target.dir}"></property>
+	<!--class文件目录-->
+	<property name="target.classes.test.dir" location="${target.dir}"></property>
+	<!--编译领域对象-->
+	<target name="compile.java">
+		<mkdir dir="${target.classes.java.dir}"/>
+		<javac destdir="${target.classes.java.dir}">
+			<src path="${java.dir}"></src>
+			<classpath>
+				<pathelement location="lib/commons-codec.jar"/>
+				<pathelement location="lib/commons-httpclient-3.1.jar"/>
+				<pathelement location="lib/commons-logging-1.1.jar"/>
+				<pathelement location="lib/junit-4.1.jar"/>
+			</classpath>
+		</javac>
+	</target>
+	<!--编译测试对象-->
+	<target name="compile.test" depends="compile.java">
+		<mkdir dir="${target.classes.test.dir}"/>
+		<javac destdir="${target.classes.test.dir}">
+			<src path="${test.dir}"/>
+			<!--关联的领域对象-->
+			<classpath>
+				<pathelement location="${target.classes.java.dir}"/>
+			</classpath>
+		</javac>
+	</target>
+	<!--编译领域对象和测试对象-->
+	<target name="compile" depends="compile.java,compile.test"></target>
+	<!--测试-->
+	<target name="test" depends="compile">
+		<mkdir dir="${target.report.dir}"/>
+		<property name="tests" value="Test*"/>
+		<!--printsummary="yes" ： 在测试的最后一行生成一个单行的概要-->
+		<!--haltonerror="yes" haltonfailure="yes" ：如果失败或产生错误将停止编译-->
+		<!--fork="yes"　：每个测试分别使用一个单独的java虚拟机（JUM）-->
+		<junit printsummary="yes" haltonerror="yes" haltonfailure="yes" fork="yes">
+			<formatter type="plain" usefile="false"/>
+			<formatter type="xml"/>
+			<!--自动找出要运行的测试-->
+			<batchtest todir="${target.report.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/${tests}.java"/>
+					<include name="**/Test*All.java"/>
+				</fileset>
+			</batchtest>
+			<!--为本次任务添加你刚刚编译的类-->
+			<classpath>
+				<pathelement location="${target.classes.java.dir}"/>
+				<pathelement location="${target.classes.test.dir}"/>
+			</classpath>
+		</junit>
+	</target>
+	<!--打印报告-->
+	<target name="report" depends="test">
+		<mkdir dir="${target.report.dir}/html"/>
+		<!--调用junitreport来产生报告-->
+		<junitreport todir="${target.report.dir}">
+			<fileset dir="${target.report.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report todir="${target.report.dir}/html"/>
+		</junitreport>
+	</target>
+	
+</project>

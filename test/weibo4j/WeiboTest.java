@@ -11,36 +11,37 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.notification.Failure;
 
 public class WeiboTest {
 	
 	private Weibo fanfou = new Weibo("172339248@qq.com", "19851129");
 	private String msg;
-	private static final String TO_USER_NAME = "lds2012";
+	private static final String TO_USER_ID = "lds2012";
 	private String AT_TO;
 
 	@Before
 	public void setUp() throws Exception {
 		msg = "test status " + new Date();
-		AT_TO = "@" + fanfou.showUser(TO_USER_NAME).getName() + " ";
+		AT_TO = "@" + fanfou.showUser(TO_USER_ID).getName() + " ";
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		
 	}
 	
 
+	// 消息相关的方法
+	
+	// 显示随便看看的消息
 	@Test
-	@Ignore
 	public void testGetPublicTimeLine() throws Exception{
 		List<Status> status = fanfou.getPublicTimeline();
 		for (Status s : status) {
@@ -48,8 +49,8 @@ public class WeiboTest {
 		}
 	}
 	
+	// 显示用户和好友的消息
 	@Test
-	@Ignore
 	public void testGetFrientsTimeline() throws Exception {
 		// page 1, count 10
 		List<Status> status_10 = fanfou.getFriendsTimeline(1, 10);
@@ -63,8 +64,8 @@ public class WeiboTest {
 		assert(status_10.get(5).equals(status_5.get(0)));
 	}
 	
+	// 显示用户的消息
 	@Test
-	@Ignore
 	public void testGetUserTimeline() throws Exception {
 		
 		// update status list
@@ -94,8 +95,8 @@ public class WeiboTest {
 		}
 	}
 
+	// 显示指定消息
 	@Test
-	@Ignore
 	public void testShowStatus() throws Exception {
 		// get one status by status id
 		Status status = fanfou.updateStatus(msg);
@@ -107,8 +108,8 @@ public class WeiboTest {
 		fanfou.destroyStatus(status.getId());
 	}
 	
+	// 显示发给当前用户的消息
 	@Test
-	@Ignore
 	public void testGetMentions() throws Exception {
 		User myself = fanfou.showUser(fanfou.getUserId());
 		
@@ -140,8 +141,8 @@ public class WeiboTest {
 		fanfou.destroyStatus(newest_mention.getId());
 	}
 	
+	// 发布消息
 	@Test
-	@Ignore
 	public void testUpdateStatus() throws Exception {
 
 		Status status = fanfou.updateStatus(msg);
@@ -150,7 +151,7 @@ public class WeiboTest {
 				
 		assertTrue(msg.equals(text));
 		
-		User user = fanfou.showUser(TO_USER_NAME);
+		User user = fanfou.showUser(TO_USER_ID);
 //		System.out.println(user.getStatusText());
 		
 		// reply to someone
@@ -166,13 +167,13 @@ public class WeiboTest {
 		fanfou.destroyStatus(repay.getId());
 	}
 	
+	// 转发消息
 	@Test
-	@Ignore
 	public void testRepost() throws Exception {
 		User user = fanfou.showUser(fanfou.getUserId());
 		String repost_status_id = user.getStatusId();
 		String repost_status_text = user.getStatusText();
-		String message = msg + "repost to " + TO_USER_NAME;
+		String message = msg + "repost to " + TO_USER_ID;
 		
 		Status repost = fanfou.repost(repost_status_id, message);
 		String text = repost.getText();
@@ -190,8 +191,8 @@ public class WeiboTest {
 		fanfou.destroyStatus(repost.getId());
 	}
 	
+	// 删除消息
 	@Test
-	@Ignore
 	public void testDestroyStatus() throws Exception {
 		
 		// update some status in case have no status
@@ -226,8 +227,8 @@ public class WeiboTest {
 		fanfou.updateStatus("clean up on " + new Date());
 	}
 	
+	// 照片上传
 	@Test
-	@Ignore
 	public void testUploadPhoto() throws Exception {
 		// 上传照片
 		FileInputStream file = new FileInputStream("fanfou.jpg");
@@ -247,8 +248,8 @@ public class WeiboTest {
 		fanfou.destroyStatus(status.getId());
 	}
 	
+	// 公开搜索
 	@Test
-	@Ignore
 	public void testSearch() throws Exception {
 		
 		QueryResult result = fanfou.search(new Query("哈"));
@@ -264,8 +265,8 @@ public class WeiboTest {
 	}
 		
 	
+	// 热词
 	@Test
-	@Ignore
 	//TODO: fanfou API's trends server is not ready. 
 	public void testGetTrends() throws Exception {
 		Trends trends = fanfou.getTrends();
@@ -280,8 +281,8 @@ public class WeiboTest {
 		assertTrue( trend_array.length == 0 );
 	}
 	
+	// 显示好友列表
 	@Test
-	@Ignore
 	public void testGetFirendStatus() throws Exception {
 		List<User> users = fanfou.getFriendsStatuses();
 		
@@ -295,7 +296,7 @@ public class WeiboTest {
 //		}
 		
 		// Get the other user's friends 
-		User san = fanfou.showUser(TO_USER_NAME);
+		User san = fanfou.showUser(TO_USER_ID);
 		
 		// Test by user id
 		
@@ -327,8 +328,8 @@ public class WeiboTest {
 		assertTrue( users_by_page_1.size() > 50 );
 	}
 	
+	// 显示关注者列表
 	@Test
-	@Ignore
 	public void testGetFollowersStatuses() throws Exception {
 		
 		// default user 
@@ -351,8 +352,8 @@ public class WeiboTest {
 		assertTrue(followers_of_fanfou_page_2.size() > 50);
 	}
 
+	// 显示用户详细信息
 	@Test
-	//@Ignore
 	public void testShowUser() throws Exception {
 		
 		// update a status for test user's last status
@@ -441,7 +442,85 @@ public class WeiboTest {
 		}
 	}
 	
+	// 发送私信
 	@Test
-	@Ignore
+	public void testSendDirectMessage() throws Exception {
+
+		User sender = fanfou.showUser(fanfou.getUserId());
+		
+		DirectMessage message = fanfou.sendDirectMessage(TO_USER_ID, msg);
+		String msg_id = message.getId();
+		String msg_text = message.getText();
+		
+		assertTrue(!msg_id.isEmpty());
+		assertTrue(!msg_text.isEmpty());
+
+		assertTrue( message.getSender().getId().equals(sender.getId()) );
+		assertTrue( message.getRecipient().getId().equals(TO_USER_ID) );
+		
+		// clean up
+		fanfou.destroyDirectMessage(message.getId());
+	}
+	
+	// 显示用户收到的私信
+	@Test
+	public void testGetDirectMessage() throws Exception {
+		
+		List<DirectMessage> messages =  fanfou.getDirectMessages();
+		
+//		for (DirectMessage m : messages) {
+//			System.out.println(messages);
+//		}
+		
+		// more then one message
+		assertTrue( messages.size() > 0);
+		assertTrue(! messages.get(0).getText().isEmpty() );
+	}
+		
+	// 显示用户发送的私信
+	@Test
+	public void testGetSendDirectMessage() throws Exception {
+		
+		User to = fanfou.showUser(TO_USER_ID);
+		
+		// send a message for test
+		DirectMessage message = fanfou.sendDirectMessage(TO_USER_ID, msg);
+		
+		// get all sent message
+		List<DirectMessage> messages =  fanfou.getSentDirectMessages();
+		
+		// more then one message 
+		assertTrue( messages.size() > 1);
+		
+		// the last message's target is TO_USER_ID
+		User getTo = messages.get(0).getRecipient();
+		assertTrue( getTo.equals(to) );
+		assertTrue( messages.get(0).equals(message));
+		
+		// clean up
+		fanfou.destroyDirectMessage(message.getId());
+	}
+	
+	@Test
+	public void testDestoryDirectMessages() throws Exception {
+//		for (int i =0 ; i < 10; i++) {
+//			fanfou.sendDirectMessage(TO_USER_ID, msg);
+//			Thread.sleep(1000);
+//		} 
+		
+		DirectMessage last_message = fanfou.getSentDirectMessages().get(0); 
+		
+		DirectMessage send = fanfou.sendDirectMessage(TO_USER_ID, msg);
+		assertTrue( msg.equals(fanfou.getSentDirectMessages().get(0).getText()) ); 
+		
+		DirectMessage message = fanfou.destroyDirectMessage(send.getId());
+		assertTrue( last_message.equals(fanfou.getSentDirectMessages().get(0)) ); 
+		
+	}
+	
+	@Test
+	public void testNow() throws Exception {}
+	
+	@Test
 	public void test() throws Exception {}
 }

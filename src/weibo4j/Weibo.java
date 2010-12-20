@@ -54,7 +54,7 @@ import weibo4j.org.json.JSONObject;
  * A java reporesentation of the <a href="http://open.t.sina.com.cn/wiki/">Weibo API</a>
  */
 public class Weibo extends WeiboSupport implements java.io.Serializable {
-	public static final String CONSUMER_KEY = "";
+	public static final String CONSUMER_KEY = "APIKEY";
 	public static final String CONSUMER_SECRET = "";
 
     private String baseURL = Configuration.getScheme() + "api.fanfou.com/";
@@ -1995,7 +1995,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * <br>This method calls http://api.t.sina.com.cn/direct_messages/sent.format
      *
      * @param paging controls pagination
-     * @return List
+     * @return List 默认返回20条, 一次最多返回60条 
      * @throws WeiboException when Weibo service or network is unavailable
      * @since Weibo4J 2.0.1
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/sent">发送私信 </a>
@@ -2061,23 +2061,35 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * The text will be trimed if the length of the text is exceeding 140 characters.
      * <br>This method calls http://api.t.sina.com.cn/direct_messages/new.format
      *
-     * @param id   the ID or screen name of the user to whom send the direct message
+     * @note 通过客户端只能给互相关注的人发私信
+     * @param id   the ID of the user to whom send the direct message
      * @param text String
      * @return DirectMessage
      * @throws WeiboException when Weibo service or network is unavailable
        @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/new">发送私信 </a>
      */
-    public DirectMessage sendDirectMessage(String id,
-                                                        String text) throws WeiboException {
+    public DirectMessage sendDirectMessage(String id, String text) throws WeiboException {
         /*return new DirectMessage(http.post(getBaseURL() + "direct_messages/new.xml",
                 new PostParameter[]{new PostParameter("user", id),
                         new PostParameter("text", text)}, true), this);*/
     	return new DirectMessage(http.post(getBaseURL() + "direct_messages/new.json",
-                new PostParameter[]{new PostParameter("user_id", id),
+                new PostParameter[]{new PostParameter("user", id),
                         new PostParameter("text", text),new PostParameter("source", source)}, true).asJSONObject());
     }
 
-
+    public DirectMessage sendDirectMessage(String id, String text, String in_reply_to_id)
+    								throws WeiboException {
+        /*return new DirectMessage(http.post(getBaseURL() + "direct_messages/new.xml",
+                new PostParameter[]{new PostParameter("user", id),
+                        new PostParameter("text", text)}, true), this);*/
+    	return new DirectMessage(http.post(getBaseURL() + "direct_messages/new.json",
+                new PostParameter[]{
+    					new PostParameter("user", id),
+                        new PostParameter("text", text),
+                        new PostParameter("in_reply_to_id", in_reply_to_id),
+                        new PostParameter("source", source)},
+                true).asJSONObject());
+    }
     /**
      * Destroys the direct message specified in the required ID parameter.  The authenticating user must be the recipient of the specified direct message.
      * <br>This method calls http://api.t.sina.com.cn/direct_messages/destroy/id.format
@@ -2088,7 +2100,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/destroy">Weibo API Wiki / Weibo REST API Method: direct_messages destroy</a>
      * @deprecated Use destroyDirectMessage(int id) instead
      */
-    public DirectMessage deleteDirectMessage(int id) throws
+    public DirectMessage deleteDirectMessage(String id) throws
             WeiboException {
         return destroyDirectMessage(id);
     }
@@ -2103,7 +2115,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Direct_messages/destroy">Weibo API Wiki / Weibo REST API Method: direct_messages destroy</a>
      * @since Weibo4J 2.0.1
      */
-    public DirectMessage destroyDirectMessage(int id) throws
+    public DirectMessage destroyDirectMessage(String id) throws
             WeiboException {
         /*return new DirectMessage(http.post(getBaseURL() +
                 "direct_messages/destroy/" + id + ".xml", new PostParameter[0], true), this);*/
