@@ -1,118 +1,119 @@
-== µ±Ç°°æ±¾README for ·¹·ñ ==
-±¾°æ±¾½«ĞÂÀËÎ¢±¡µÄJAVA SDKÂÔ¼ÓĞŞ¸ÄÒÔÊÊÓ¦·¹·ñAPI¡£¶øĞÂÀËÎ¢±¡µÄJava SDKÓÖÊÇ»ùÓÚTwittetr4J(http://twitter4j.org/)ĞŞ¸Ä¶ø³É.
+== å½“å‰ç‰ˆæœ¬README for é¥­å¦ ==
+æœ¬ç‰ˆæœ¬å°†æ–°æµªå¾®è–„çš„JAVA SDKç•¥åŠ ä¿®æ”¹ä»¥é€‚åº”é¥­å¦APIã€‚è€Œæ–°æµªå¾®è–„çš„Java SDKåˆæ˜¯åŸºäºTwittetr4J(http://twitter4j.org/)ä¿®æ”¹è€Œæˆ.
 
-ĞÂÀË°æ±¾ÖĞÉ¾³ıÁËÔ­À´µÄlicenseÎÄ¼ş£¬±¾°æ±¾ÒÑÖØĞÂ¼ÓÈë£¬²¢ÑØÓÃTwittetr4JËù²ÉÓÃBSD license.
+æ–°æµªç‰ˆæœ¬ä¸­åˆ é™¤äº†åŸæ¥çš„licenseæ–‡ä»¶ï¼Œæœ¬ç‰ˆæœ¬å·²é‡æ–°åŠ å…¥ï¼Œå¹¶æ²¿ç”¨Twittetr4Jæ‰€é‡‡ç”¨BSD license.
 
-Ô´´úÂë£ºhttps://github.com/sandin/fanfou4j
+æºä»£ç ï¼šhttps://github.com/sandin/fanfou4j
 
-== Ô­°æREADME for Twitter ==
+== åŸç‰ˆREADME for Twitter ==
 Twittetr4J is a Twitter API binding library for the Java language licensed under the BSD license.
 
 LICENSE.txt - the terms of license of this software
 
-== ĞÂÀËÎ¢²©°æREADME for Î§²± ==
-ĞŞ¸ÄÊÂÏî£º
-1¡¢½Ó¿Ú·µ»Ø½á¹û²ÉÓÃjson¶ÔÏó·½Ê½·â×°
-2¡¢ĞŞ¸ÄWeiboResponseÖĞ¿Õ×Ö·û´®("")µ÷ÓÃÅĞ¶ÏµÄbug
-3¡¢ĞŞ¸ÄÁËJSONObjectÖĞ·µ»Ø¿Õ¶ÔÏóµÄÎÊÌâ
-4¡¢Ôö¼ÓÁËÖ±½ÓÎÄ¼şÉÏ´«½Ó¿ÚÖ±½Ó
+== æ–°æµªå¾®åšç‰ˆREADME for å›´è„– ==
+ä¿®æ”¹äº‹é¡¹ï¼š
+1ã€æ¥å£è¿”å›ç»“æœé‡‡ç”¨jsonå¯¹è±¡æ–¹å¼å°è£…
+2ã€ä¿®æ”¹WeiboResponseä¸­ç©ºå­—ç¬¦ä¸²("")è°ƒç”¨åˆ¤æ–­çš„bug
+3ã€ä¿®æ”¹äº†JSONObjectä¸­è¿”å›ç©ºå¯¹è±¡çš„é—®é¢˜
+4ã€å¢åŠ äº†ç›´æ¥æ–‡ä»¶ä¸Šä¼ æ¥å£ç›´æ¥
 
-³£ÓÃ½Ó¿ÚÊµÀı£º
-£¨Ê¹ÓÃÇ°ÏÈĞŞ¸Ä Weibo.java ÖĞ 
+å¸¸ç”¨æ¥å£å®ä¾‹ï¼š
+ï¼ˆä½¿ç”¨å‰å…ˆä¿®æ”¹ Weibo.java ä¸­ 
  	public static final String CONSUMER_KEY = "";
 	public static final String CONSUMER_SECRET = "";
- ÌîĞ´³ÉÊµ¼ÊÉêÇëµÄ CONSUMER_KEY ¼° CONSUMER_SECRET£©
+ å¡«å†™æˆå®é™…ç”³è¯·çš„ CONSUMER_KEY åŠ CONSUMER_SECRETï¼‰
 
-1¡¢»ñÈ¡×îĞÂ¹«¹²Î¢²©ÁĞ±í
-	²Î¿¼£ºweibo4j.examples.GetTimelines ÖĞµÄgetPublicTimeline()²¿·Ö
+1ã€è·å–æœ€æ–°å…¬å…±å¾®åšåˆ—è¡¨
+	å‚è€ƒï¼šweibo4j.examples.GetTimelines ä¸­çš„getPublicTimeline()éƒ¨åˆ†
 
-2¡¢·¢±íÎ¢²©
-	²Î¿¼£ºweibo4j.examples.Update ÖĞµÄupdateStatus(...)²¿·Ö
+2ã€å‘è¡¨å¾®åš
+	å‚è€ƒï¼šweibo4j.examples.Update ä¸­çš„updateStatus(...)éƒ¨åˆ†
 
-3¡¢·¢±íÆÀÂÛ
-	²Î¿¼£ºweibo4j.examples.Update ÖĞµÄupdateComment(...)²¿·Ö
+3ã€å‘è¡¨è¯„è®º
+	å‚è€ƒï¼šweibo4j.examples.Update ä¸­çš„updateComment(...)éƒ¨åˆ†
 
-4¡¢É¾³ıÆÀÂÛ
-	²Î¿¼£ºweibo4j.examples.Update ÖĞµÄdestroyComment(...)²¿·Ö
+4ã€åˆ é™¤è¯„è®º
+	å‚è€ƒï¼šweibo4j.examples.Update ä¸­çš„destroyComment(...)éƒ¨åˆ†
 
-5¡¢·¢ËÍË½ÈËÏûÏ¢
-	²Î¿¼£ºweibo4j.examples.DirectMessage Àà
+5ã€å‘é€ç§äººæ¶ˆæ¯
+	å‚è€ƒï¼šweibo4j.examples.DirectMessage ç±»
 
-6¡¢·¢±í´øÍ¼Æ¬µÄÎ¢²©
-	²Î¿¼£ºweibo4j.examples.OAuthUploadByFile ÖĞµÄuploadStatus(status,file)²¿·Ö
+6ã€å‘è¡¨å¸¦å›¾ç‰‡çš„å¾®åš
+	å‚è€ƒï¼šweibo4j.examples.OAuthUploadByFile ä¸­çš„uploadStatus(status,file)éƒ¨åˆ†
 
-7¡¢¸üĞÂÓÃ»§Í·Ïñ
-	²Î¿¼£ºweibo4j.examples.OAuthUpdateProfileÀà
+7ã€æ›´æ–°ç”¨æˆ·å¤´åƒ
+	å‚è€ƒï¼šweibo4j.examples.OAuthUpdateProfileç±»
 
-8¡¢OAuth×ÀÃæÓ¦ÓÃ·ÃÎÊ
-	²½Öè£º 1> ÔÚweibo4j.examples.OAuthUpdate ·ÃÎÊÈÏÖ¤µÄURL£¬µÃµ½pin
-		  2> ÔÚweibo4j.examples.OAuthUpdate 	ÊäÈëpin£¬È»ºóµÃµ½AccessToken
-		  3> ¼´¿É·ÃÎÊÓÃ»§µÄÎ¢²©£¬²Î¿¼£ºweibo4j.examples.OAuthUpdateTwo
+8ã€OAuthæ¡Œé¢åº”ç”¨è®¿é—®
+	æ­¥éª¤ï¼š 1> åœ¨weibo4j.examples.OAuthUpdate è®¿é—®è®¤è¯çš„URLï¼Œå¾—åˆ°pin
+		  2> åœ¨weibo4j.examples.OAuthUpdate 	è¾“å…¥pinï¼Œç„¶åå¾—åˆ°AccessToken
+		  3> å³å¯è®¿é—®ç”¨æˆ·çš„å¾®åšï¼Œå‚è€ƒï¼šweibo4j.examples.OAuthUpdateTwo
 
-9¡¢OAuth WEBÓ¦ÓÃ·ÃÎÊ
-	²½Öè£º 
-					1> ÔÚweibo4j.examples.WebOAuth ´øbackurl²ÎÊıÇëÇóOAuthÈÏÖ¤£¬»ñµÃRequestToken
-				  2> ÔÚcallback µÄµØÖ·ÀïÃæ£¬½ÓÊÜµ½oauth_verifier²ÎÊı£¬È»ºóÔÙ·¢Ò»´ÎÇëÇó£¬¼´¿É»ñµÃAccessToken
-				  3> ÓÃAccessToken·ÃÎÊÓÃ»§µÄÎ¢²©
-	ÊµÀıËµÃ÷£º
+9ã€OAuth WEBåº”ç”¨è®¿é—®
+	æ­¥éª¤ï¼š 
+					1> åœ¨weibo4j.examples.WebOAuth å¸¦backurlå‚æ•°è¯·æ±‚OAuthè®¤è¯ï¼Œè·å¾—RequestToken
+				  2> åœ¨callback çš„åœ°å€é‡Œé¢ï¼Œæ¥å—åˆ°oauth_verifierå‚æ•°ï¼Œç„¶åå†å‘ä¸€æ¬¡è¯·æ±‚ï¼Œå³å¯è·å¾—AccessToken
+				  3> ç”¨AccessTokenè®¿é—®ç”¨æˆ·çš„å¾®åš
+	å®ä¾‹è¯´æ˜ï¼š
 	
-		ÔÚwebÄ¿Â¼ÏÂÃæÓĞÁ½¸öjspÒ³Ãæ£º
+		åœ¨webç›®å½•ä¸‹é¢æœ‰ä¸¤ä¸ªjspé¡µé¢ï¼š
 		call.jsp 
-					ÊÇ·¢ËÍrequestµÄÇëÇó£¬ÔÚµÚ¾ÅĞĞµÄ²ÎÊı¡°http://localhost:8080/callback.jsp¡±ÊÇ»Øµ÷µØÖ·
-				  µ±»ñÈ¡³É¹¦ºó½«RequestTokenÖÃÈësession£¬²¢ÖØ¶¨Ïòµ½ÓÃ»§ÈÏÖ¤µØÖ·
+					æ˜¯å‘é€requestçš„è¯·æ±‚ï¼Œåœ¨ç¬¬ä¹è¡Œçš„å‚æ•°â€œhttp://localhost:8080/callback.jspâ€æ˜¯å›è°ƒåœ°å€
+				  å½“è·å–æˆåŠŸåå°†RequestTokenç½®å…¥sessionï¼Œå¹¶é‡å®šå‘åˆ°ç”¨æˆ·è®¤è¯åœ°å€
 	  callback.jsp 
-	  			½ÓÊÕµ½oauth_verifier²ÎÊı£¬´ÓsessionÀïÃæÄÃµ½RequestToken£¬ÔÙÇëÇó»ñÈ¡AccessToken
-	    		»ñÈ¡µ½ºó¼´¿É¶ÔÓÃ»§Î¢²©½øĞĞ²Ù×÷£¬±¾ÀıÖĞÊÇ·¢±íÎ¢²©
+	  			æ¥æ”¶åˆ°oauth_verifierå‚æ•°ï¼Œä»sessioné‡Œé¢æ‹¿åˆ°RequestTokenï¼Œå†è¯·æ±‚è·å–AccessToken
+	    		è·å–åˆ°åå³å¯å¯¹ç”¨æˆ·å¾®åšè¿›è¡Œæ“ä½œï¼Œæœ¬ä¾‹ä¸­æ˜¯å‘è¡¨å¾®åš
 	
-	²âÊÔ»·¾³£º
+	æµ‹è¯•ç¯å¢ƒï¼š
 		
-		±¾ÀıÖĞ¿ÉÒÔ½«call.jspºÍ  callback.jspÖ±½Ó·Åµ½tomcatµÄ¸ùÄ¿Â¼ÏÂÃæ£ºwebapps\ROOT
-		²¢½«ÊµÀıÏîÄ¿±àÒëºÃµÄclassesÎÄ¼şºÍlibÄ¿Â¼¿½±´µ½ROOT\WEB-INFÏÂÃæ
-		ÖØÆôtomcat£¬·ÃÎÊhttp://localhost:8080/call.jsp?opt=1	
-	×¢£ºÒ²¿ÉÒÔ´ò³Éwar°ü£¬µ«×¢Òâcall.jspÀïÃæµÄcallback²ÎÊıĞèÒª×öÏàÓ¦ĞŞ¸Ä
+		æœ¬ä¾‹ä¸­å¯ä»¥å°†call.jspå’Œ  callback.jspç›´æ¥æ”¾åˆ°tomcatçš„æ ¹ç›®å½•ä¸‹é¢ï¼šwebapps\ROOT
+		å¹¶å°†å®ä¾‹é¡¹ç›®ç¼–è¯‘å¥½çš„classesæ–‡ä»¶å’Œlibç›®å½•æ‹·è´åˆ°ROOT\WEB-INFä¸‹é¢
+		é‡å¯tomcatï¼Œè®¿é—®http://localhost:8080/call.jsp?opt=1	
+	æ³¨ï¼šä¹Ÿå¯ä»¥æ‰“æˆwaråŒ…ï¼Œä½†æ³¨æ„call.jspé‡Œé¢çš„callbackå‚æ•°éœ€è¦åšç›¸åº”ä¿®æ”¹
 
 
 =============================================================================
-ÆäËû½Ó¿ÚÔÚweibo4j.WeiboÀàÖĞ¶¨Òå£¬µ÷ÓÃ·½Ê½Çë²Î¿¼weibo4j.examples£¬ÏÂÃæÊÇÍêÕûµÄ½Ó¿ÚÁĞ±í£º
+å…¶ä»–æ¥å£åœ¨weibo4j.Weiboç±»ä¸­å®šä¹‰ï¼Œè°ƒç”¨æ–¹å¼è¯·å‚è€ƒweibo4j.examplesï¼Œä¸‹é¢æ˜¯å®Œæ•´çš„æ¥å£åˆ—è¡¨ï¼š
 
-»ñÈ¡ÏÂĞĞÊı¾İ¼¯(timeline)½Ó¿Ú  ·½·¨Ãû£º
-statuses/public_timeline ×îĞÂ¹«¹²Î¢²©      ·½·¨Ãû£ºgetPublicTimeline
-statuses/friends_timeline ×îĞÂ¹Ø×¢ÈËÎ¢²© (±ğÃû: statuses/home_timeline)  ·½·¨Ãû£ºgetFriendsTimeline 
-statuses/user_timeline ÓÃ»§·¢±íÎ¢²©ÁĞ±í   ·½·¨Ãû£ºgetUserTimeline(String id, Paging paging)
-statuses/mentions ×îĞÂ @ÓÃ»§µÄ    ·½·¨Ãû£º getMentions()
-statuses/comments µ¥ÌõÆÀÂÛÁĞ±í(°´Î¢²©)   ·½·¨Ãû£ºgetComments()
+è·å–ä¸‹è¡Œæ•°æ®é›†(timeline)æ¥å£  æ–¹æ³•åï¼š
+statuses/public_timeline æœ€æ–°å…¬å…±å¾®åš      æ–¹æ³•åï¼šgetPublicTimeline
+statuses/friends_timeline æœ€æ–°å…³æ³¨äººå¾®åš (åˆ«å: statuses/home_timeline)  æ–¹æ³•åï¼šgetFriendsTimeline 
+statuses/user_timeline ç”¨æˆ·å‘è¡¨å¾®åšåˆ—è¡¨   æ–¹æ³•åï¼šgetUserTimeline(String id, Paging paging)
+statuses/mentions æœ€æ–° @ç”¨æˆ·çš„    æ–¹æ³•åï¼š getMentions()
+statuses/comments å•æ¡è¯„è®ºåˆ—è¡¨(æŒ‰å¾®åš)   æ–¹æ³•åï¼šgetComments()
 
-Î¢²©·ÃÎÊ½Ó¿Ú
-statuses/show »ñÈ¡µ¥Ìõ   ·½·¨Ãû£ºshowStatus(long id)
+å¾®åšè®¿é—®æ¥å£
+statuses/show è·å–å•æ¡   æ–¹æ³•åï¼šshowStatus(long id)
 
-statuses/update ·¢±íÎ¢²©   ·½·¨Ãû£ºupdateStatus(String status)
-statuses/upload ·¢±íÎ¢²©¼°Í¼Æ¬ ·½·¨Ãû£ºuploadStatus(String status,File file)
-statuses/destroy É¾³ı ·½·¨Ãû£º destroyStatus(long statusId)
+statuses/update å‘è¡¨å¾®åš   æ–¹æ³•åï¼šupdateStatus(String status)
+statuses/upload å‘è¡¨å¾®åšåŠå›¾ç‰‡ æ–¹æ³•åï¼šuploadStatus(String status,File file)
+statuses/destroy åˆ é™¤ æ–¹æ³•åï¼š destroyStatus(long statusId)
 
-statuses/comment ÆÀÂÛ ·½·¨Ãû£º destroyComment(long commentId)
-statuses/comment_destroy É¾³ıÆÀÂÛ  ·½·¨Ãû£ºdestroyComment
+statuses/comment è¯„è®º æ–¹æ³•åï¼š destroyComment(long commentId)
+statuses/comment_destroy åˆ é™¤è¯„è®º  æ–¹æ³•åï¼šdestroyComment
 
-Ë½ĞÅ½Ó¿Ú
-direct_messages ÎÒµÄË½ĞÅÁĞ±í ·½·¨Ãû£ºgetDirectMessages() ·ÖÒ³ getDirectMessages(Paging paging)
-direct_messages/sent ÎÒ·¢ËÍµÄË½ĞÅÁĞ±í ·½·¨Ãû£ºgetSentDirectMessages()
-direct_messages/new ·¢ËÍË½ĞÅ ·½·¨Ãû£ºsendDirectMessage(String id,String text)
-direct_messages/destroy É¾³ıÒ»ÌõË½ĞÅ ·½·¨Ãû£ºdestroyDirectMessage(int id)
-¹Ø×¢½Ó¿Ú
-friendships/create ¹Ø×¢Ä³ÓÃ»§ ·½·¨Ãû£ºcreateFriendship(String id)»ò createFriendship(String id, boolean follow)
-friendships/destroy È¡Ïû¹Ø×¢ ·½·¨Ãû£º destroyFriendship(String id)
-friendships/exists ÊÇ·ñ¹Ø×¢Ä³ÓÃ»§ ·½·¨Ãû£ºexistsFriendship(String userA, String userB)
+ç§ä¿¡æ¥å£
+direct_messages æˆ‘çš„ç§ä¿¡åˆ—è¡¨ æ–¹æ³•åï¼šgetDirectMessages() åˆ†é¡µ getDirectMessages(Paging paging)
+direct_messages/sent æˆ‘å‘é€çš„ç§ä¿¡åˆ—è¡¨ æ–¹æ³•åï¼šgetSentDirectMessages()
+direct_messages/new å‘é€ç§ä¿¡ æ–¹æ³•åï¼šsendDirectMessage(String id,String text)
+direct_messages/destroy åˆ é™¤ä¸€æ¡ç§ä¿¡ æ–¹æ³•åï¼šdestroyDirectMessage(int id)
+å…³æ³¨æ¥å£
+friendships/create å…³æ³¨æŸç”¨æˆ· æ–¹æ³•åï¼šcreateFriendship(String id)æˆ– createFriendship(String id, boolean follow)
+friendships/destroy å–æ¶ˆå…³æ³¨ æ–¹æ³•åï¼š destroyFriendship(String id)
+friendships/exists æ˜¯å¦å…³æ³¨æŸç”¨æˆ· æ–¹æ³•åï¼šexistsFriendship(String userA, String userB)
 
-friends/ids ¹Ø×¢ÁĞ±í ·½·¨Ãû£º getFriendsIDs(long cursor)
-followers/ids ·ÛË¿ÁĞ±í ·½·¨Ãû£ºgetFollowersIDs(long cursor)
-ÕËºÅ½Ó¿Ú
-account/verify_credentials ÑéÖ¤Éí·İÊÇ·ñºÏ·¨ ·½·¨Ãû£ºverifyCredentials()
-account/rate_limit_status ²é¿´µ±Ç°ÆµÂÊÏŞÖÆ ·½·¨Ãû£ºrateLimitStatus()
+friends/ids å…³æ³¨åˆ—è¡¨ æ–¹æ³•åï¼š getFriendsIDs(long cursor)
+followers/ids ç²‰ä¸åˆ—è¡¨ æ–¹æ³•åï¼šgetFollowersIDs(long cursor)
+è´¦å·æ¥å£
+account/verify_credentials éªŒè¯èº«ä»½æ˜¯å¦åˆæ³• æ–¹æ³•åï¼šverifyCredentials()
+account/rate_limit_status æŸ¥çœ‹å½“å‰é¢‘ç‡é™åˆ¶ æ–¹æ³•åï¼šrateLimitStatus()
 
-account/update_profile_image ¸ü¸ÄÍ·Ïñ ·½·¨Ãû£ºupdateProfileImage(File image)
-account/update_profile ¸ü¸Ä×ÊÁÏ ·½·¨Ãû£ºUser updateProfile(String name, String email, String url, String location, String description)
+account/update_profile_image æ›´æ”¹å¤´åƒ æ–¹æ³•åï¼šupdateProfileImage(File image)
+account/update_profile æ›´æ”¹èµ„æ–™ æ–¹æ³•åï¼šUser updateProfile(String name, String email, String url, String location, String description)
 
-ÊÕ²Ø½Ó¿Ú
-favorites ÊÕ²ØÁĞ±í ·½·¨Ãû£ºgetFavorites()
-favorites/create Ìí¼ÓÊÕ²Ø ·½·¨Ãû£ºcreateFavorite(long id)
-favorites/destroy É¾³ıÊÕ²Ø ·½·¨Ãû£ºdestroyFavorite(long id)
+æ”¶è—æ¥å£
+favorites æ”¶è—åˆ—è¡¨ æ–¹æ³•åï¼šgetFavorites()
+favorites/create æ·»åŠ æ”¶è— æ–¹æ³•åï¼šcreateFavorite(long id)
+favorites/destroy åˆ é™¤æ”¶è— æ–¹æ³•åï¼šdestroyFavorite(long id)
+
 
