@@ -26,7 +26,7 @@ public class WeiboTest {
 	private Weibo fanfou = new Weibo("172339248@qq.com", "19851129");
 	
 	/**
-	 * 好友帐号ID， 必须是好友关系， 与已登录帐号互相关注
+	 * 好友帐号ID， 必须是好友关系(与已登录帐号互相关注)
 	 */
 	private static final String TO_USER_ID = "lds2012";
 	private String AT_TO;
@@ -613,7 +613,7 @@ public class WeiboTest {
 	public void testBlock() throws Exception {
 		
 		// 两用户为好友
-		User user = fanfou.showUser(TO_USER_ID);
+		User user = fanfou.showUser("fanfou");
 		User myself = fanfou.showUser(fanfou.getUserId());
 		if (! fanfou.existsFriendship(myself.getId(), user.getId()) ) {
 			fanfou.createFriendship(user.getId());
