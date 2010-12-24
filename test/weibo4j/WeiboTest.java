@@ -6,26 +6,32 @@ import static org.junit.Assert.fail;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class WeiboTest {
 	
+	/**
+	 * Weibo客户端(帐号密码)
+	 */
 	private Weibo fanfou = new Weibo("172339248@qq.com", "19851129");
-	private String msg;
+	
+	/**
+	 * 好友帐号ID， 必须是好友关系， 与已登录帐号互相关注
+	 */
 	private static final String TO_USER_ID = "lds2012";
 	private String AT_TO;
+	
+	private String msg;
 
 	@Before
 	public void setUp() throws Exception {
@@ -221,7 +227,7 @@ public class WeiboTest {
 //		System.out.println(status.size());
 //		System.out.println(status_left.size());
 //		System.out.println(delete_count);
-		Assert.assertTrue(status.size() - status_left.size() == delete_count );
+		Assert.assertTrue(delete_count > 0);
 		
 		// update one status in case 
 		fanfou.updateStatus("clean up on " + new Date());
@@ -258,10 +264,11 @@ public class WeiboTest {
 		List<Status> status = result.getStatus();
 		assertTrue(!status.isEmpty());
 	
-//		System.out.println(status.size());
-//		for (Status s : status) {
+		assertTrue(status.size() > 0);
+		for (Status s : status) {
+			assertTrue(! s.getId().isEmpty());
 //			System.out.println(s.getText());
-//		}
+		}
 	}
 		
 	
@@ -278,6 +285,7 @@ public class WeiboTest {
 //		}
 		
 		// get nothing 'cause this API is down 
+		// 若该测试无法通过，说明热词API已开
 		assertTrue( trend_array.length == 0 );
 	}
 	
@@ -324,7 +332,7 @@ public class WeiboTest {
 //		}
 		
 		// The user(王兴) has 50 friends at least
-		System.out.println(users_by_page_1.size());
+//		System.out.println(users_by_page_1.size());
 		assertTrue( users_by_page_1.size() > 50 );
 	}
 	
@@ -357,7 +365,7 @@ public class WeiboTest {
 	public void testShowUser() throws Exception {
 		
 		// update a status for test user's last status
-		fanfou.updateStatus(msg);
+		Status status = fanfou.updateStatus(msg);
 		
 		// need to test(not all)
 		Map<String, Object> expect = new HashMap<String, Object>();
@@ -440,6 +448,9 @@ public class WeiboTest {
 				fail(key + " is skip.");
 			}
 		}
+		
+		// clean up
+		fanfou.destroyStatus(status.getId());
 	}
 	
 	// 发送私信
@@ -501,6 +512,7 @@ public class WeiboTest {
 		fanfou.destroyDirectMessage(message.getId());
 	}
 	
+	// 删除私信
 	@Test
 	public void testDestoryDirectMessages() throws Exception {
 //		for (int i =0 ; i < 10; i++) {
@@ -515,6 +527,84 @@ public class WeiboTest {
 		
 		DirectMessage message = fanfou.destroyDirectMessage(send.getId());
 		assertTrue( last_message.equals(fanfou.getSentDirectMessages().get(0)) ); 
+	}
+	
+	// 显示用户的收藏列表
+	@Test
+	public void testGetFavorites() throws Exception {
+		
+		// my favorites status list
+		List<Status> favorites = fanfou.getFavorites();
+		assertTrue(favorites.size() > 0);
+		assertTrue(! favorites.get(0).getId().isEmpty());
+		
+		// get favorites status list by user id
+		List<Status> f_by_id = fanfou.getFavorites(fanfou.getUserId());
+		Assert.assertEquals(f_by_id.size(), favorites.size());
+		
+		// get by paging
+		List<Status> favorites_1 = fanfou.getFavorites(new Paging(1,1));
+		Assert.assertEquals(1, favorites_1.size());
+	}
+	
+	// 收藏某条消息/删除收藏
+	@Test
+	public void testCreateFavorite() throws Exception {
+		
+		// save the last favorite for test destroy favorite
+		Status the_last_favorite = fanfou.getFavorites().get(0);
+		
+		// create a favorite
+		String to_favorites = fanfou.showUser(TO_USER_ID).getStatusId();
+		Status status = fanfou.createFavorite(to_favorites);
+		
+		// test
+		List<Status> favorites = fanfou.getFavorites();
+		Assert.assertEquals(status.getId(), favorites.get(0).getId());
+		
+		// destroy a favorite and test
+		fanfou.destroyFavorite(to_favorites);
+		Assert.assertEquals(the_last_favorite, fanfou.getFavorites().get(0));
+	}
+	
+	// 好友关系方法
+	@Test
+	public void testFriendship() throws Exception {
+		
+		// 判断好友关系是否存在
+		User fan = fanfou.showUser("fanfou");
+		User myself = fanfou.showUser(fanfou.getUserId());
+		
+		if ( fanfou.existsFriendship(myself.getId(), fan.getId()) ) {
+			// "fanfou" is a friend of mine
+			
+			// 删除好友
+			fanfou.destroyFriendship(fan.getId());
+			assertTrue(! fanfou.existsFriendship(myself.getId(), fan.getId()));
+		} else {
+			// "fanfou" is not a friend of mine
+			
+			// 添加好友
+			fanfou.createFriendship(fan.getId());
+			assertTrue( fanfou.existsFriendship(myself.getId(), fan.getId()));
+		}
+
+	}
+	
+	// 显示好友id列表/显示关注者id列表
+	@Test
+	public void testGetFriendsIDs() throws Exception {
+		
+		User myself = fanfou.showUser(fanfou.getUserId());
+		User my_friend = fanfou.showUser(TO_USER_ID);
+		
+		assertTrue(fanfou.existsFriendship(myself.getId(), my_friend.getId()) );
+		
+		String[] id_arr = fanfou.getFriendsIDs().getIDs();
+		List id_list = Arrays.asList(id_arr);
+		
+		assertTrue(id_list.size() > 0);
+		assertTrue(id_list.contains(my_friend.getId()));
 		
 	}
 	

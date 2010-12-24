@@ -2469,9 +2469,9 @@ public class AsyncWeibo extends Weibo {
      * @deprecated Use createFavoriteAsync(long id, WeiboListener listener) instead.
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/create">favorites/create </a>
      */
-    public void createFavoriteAsync(int id, WeiboListener listener) {
-        createFavoriteAsync((long) id, listener);
-    }
+//    public void createFavoriteAsync(String id, WeiboListener listener) {
+//        createFavoriteAsync((String) id, listener);
+//    }
 
     /**
      * Favorites the status specified in the ID parameter as the authenticating user.  Returns the favorite status when successful.
@@ -2482,10 +2482,10 @@ public class AsyncWeibo extends Weibo {
      * @since 1.1.2
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/create">favorites/create </a>
      */
-    public void createFavoriteAsync(long id, WeiboListener listener) {
+    public void createFavoriteAsync(String id, WeiboListener listener) {
         getDispatcher().invokeLater(new AsyncTask(FAVORITES, listener, new Object[]{id}) {
             public void invoke(WeiboListener listener, Object[] args) throws WeiboException {
-                listener.createdFavorite(createFavorite((Long) args[0]));
+                listener.createdFavorite(createFavorite((String) args[0]));
             }
         });
     }
@@ -2497,9 +2497,9 @@ public class AsyncWeibo extends Weibo {
      * @deprecated Use createFavoriteAsync(long id, WeiboListener listener) instead.
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/create">favorites/create </a>
      */
-    public void createFavoriteAsync(int id) {
-        createFavoriteAsync((long) id);
-    }
+//    public void createFavoriteAsync(String id) {
+//        createFavoriteAsync((String) id);
+//    }
 
     /**
      * Favorites the status specified in the ID parameter as the authenticating user.  Returns the favorite status when successful.
@@ -2509,10 +2509,10 @@ public class AsyncWeibo extends Weibo {
      * @since 1.1.2
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/create">favorites/create </a>
      */
-    public void createFavoriteAsync(long id) {
+    public void createFavoriteAsync(String id) {
         getDispatcher().invokeLater(new AsyncTask(FAVORITES, new WeiboAdapter(), new Object[]{id}) {
             public void invoke(WeiboListener listener, Object[] args) throws WeiboException {
-                listener.createdFavorite(createFavorite((Long) args[0]));
+                listener.createdFavorite(createFavorite((String) args[0]));
             }
         });
     }
@@ -2525,9 +2525,9 @@ public class AsyncWeibo extends Weibo {
      * @deprecated Use destroyFavoriteAsync(long id, WeiboListener listener) instead.
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/destroy">favorites/destroy </a>
      */
-    public void destroyFavoriteAsync(int id, WeiboListener listener) {
-        destroyFavoriteAsync((long) id, listener);
-    }
+//    public void destroyFavoriteAsync(String id, WeiboListener listener) {
+//        destroyFavoriteAsync((String) id, listener);
+//    }
 
     /**
      * Favorites the status specified in the ID parameter as the authenticating user.  Returns the favorite status when successful.
@@ -2538,10 +2538,10 @@ public class AsyncWeibo extends Weibo {
      * @since 1.1.2
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/destroy">favorites/destroy </a>
      */
-    public void destroyFavoriteAsync(long id, WeiboListener listener) {
+    public void destroyFavoriteAsync(String id, WeiboListener listener) {
         getDispatcher().invokeLater(new AsyncTask(FAVORITES, listener, new Object[]{id}) {
             public void invoke(WeiboListener listener, Object[] args) throws WeiboException {
-                listener.destroyedFavorite(destroyFavorite((Long) args[0]));
+                listener.destroyedFavorite(destroyFavorite((String) args[0]));
             }
         });
     }
@@ -2553,9 +2553,9 @@ public class AsyncWeibo extends Weibo {
      * @deprecated Use destroyFavoriteAsync(long id) instead.
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/destroy">favorites/destroy </a>
      */
-    public void destroyFavoriteAsync(int id) {
-        destroyFavoriteAsync((long) id);
-    }
+//    public void destroyFavoriteAsync(int id) {
+//        destroyFavoriteAsync((long) id);
+//    }
 
     /**
      * Favorites the status specified in the ID parameter as the authenticating user.  Returns the favorite status when successful.
@@ -2565,10 +2565,10 @@ public class AsyncWeibo extends Weibo {
      * @since 1.1.2
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/destroy">favorites/destroy </a>
      */
-    public void destroyFavoriteAsync(long id) {
+    public void destroyFavoriteAsync(String id) {
         getDispatcher().invokeLater(new AsyncTask(FAVORITES, new WeiboAdapter(), new Object[]{id}) {
             public void invoke(WeiboListener listener, Object[] args) throws WeiboException {
-                listener.destroyedFavorite(destroyFavorite((Long) args[0]));
+                listener.destroyedFavorite(destroyFavorite((String) args[0]));
             }
         });
     }

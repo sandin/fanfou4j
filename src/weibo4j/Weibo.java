@@ -2644,6 +2644,11 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
 //        return Status.constructStatuses(get(getBaseURL() + "favorites.xml", new PostParameter[0], true), this);
     	return Status.constructStatuses(get(getBaseURL() + "favorites.json", new PostParameter[0], true));
     }
+    
+    public List<Status> getFavorites(Paging paging) throws WeiboException {
+//      return Status.constructStatuses(get(getBaseURL() + "favorites/" + id + ".xml", "page", String.valueOf(page), true), this);
+  	return Status.constructStatuses(get(getBaseURL() + "favorites.json", new PostParameter[0], paging, true));
+  }
 
     /**
      * Returns the 20 most recent favorite statuses for the authenticating user or user specified by the ID parameter in the requested format.
@@ -2726,6 +2731,11 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
 //        return Status.constructStatuses(get(getBaseURL() + "favorites/" + id + ".xml", "page", String.valueOf(page), true), this);
     	return Status.constructStatuses(get(getBaseURL() + "favorites/" + id + ".json", "page", String.valueOf(page), true));
     }
+    
+    public List<Status> getFavorites(String id, Paging paging) throws WeiboException {
+//        return Status.constructStatuses(get(getBaseURL() + "favorites/" + id + ".xml", "page", String.valueOf(page), true), this);
+    	return Status.constructStatuses(get(getBaseURL() + "favorites/" + id + ".json", null, paging, true));
+    }
 
     /**
      * Favorites the status specified in the ID parameter as the authenticating user.  Returns the favorite status when successful.
@@ -2735,7 +2745,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @throws WeiboException when Weibo service or network is unavailable
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/create">favorites/create </a>
      */
-    public Status createFavorite(long id) throws WeiboException {
+    public Status createFavorite(String id) throws WeiboException {
 //        return new Status(http.post(getBaseURL() + "favorites/create/" + id + ".xml", true), this);
     	return new Status(http.post(getBaseURL() + "favorites/create/" + id + ".json", true));
     }
@@ -2748,7 +2758,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @throws WeiboException when Weibo service or network is unavailable
      * @see <a href="http://open.t.sina.com.cn/wiki/index.php/Favorites/destroy">favorites/destroy </a>
      */
-    public Status destroyFavorite(long id) throws WeiboException {
+    public Status destroyFavorite(String id) throws WeiboException {
 //        return new Status(http.post(getBaseURL() + "favorites/destroy/" + id + ".xml", true), this);
     	return new Status(http.post(getBaseURL() + "favorites/destroy/" + id + ".json", true));
     }
