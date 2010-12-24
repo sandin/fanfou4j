@@ -1,6 +1,16 @@
+== 当前版本README for 饭否 ==
+本版本将新浪微薄的JAVA SDK略加修改以适应饭否API。而新浪微薄的Java SDK又是基于Twittetr4J(http://twitter4j.org/)修改而成.
 
-新浪微博API（java版）
-============================
+新浪版本中删除了原来的license文件，本版本已重新加入，并沿用Twittetr4J所采用BSD license.
+
+源代码：https://github.com/sandin/fanfou4j
+
+== 原版README for Twitter ==
+Twittetr4J is a Twitter API binding library for the Java language licensed under the BSD license.
+
+LICENSE.txt - the terms of license of this software
+
+== 新浪微博版README for 围脖 ==
 修改事项：
 1、接口返回结果采用json对象方式封装
 2、修改WeiboResponse中空字符串("")调用判断的bug
