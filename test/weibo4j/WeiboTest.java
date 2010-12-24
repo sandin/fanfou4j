@@ -608,8 +608,74 @@ public class WeiboTest {
 		
 	}
 	
+	// 黑名单
 	@Test
-	public void testNow() throws Exception {}
+	public void testBlock() throws Exception {
+		
+		// 两用户为好友
+		User user = fanfou.showUser(TO_USER_ID);
+		User myself = fanfou.showUser(fanfou.getUserId());
+		if (! fanfou.existsFriendship(myself.getId(), user.getId()) ) {
+			fanfou.createFriendship(user.getId());
+		}
+		
+		// 加入黑名单, 好友关系自动取消
+		fanfou.createBlock(user.getId());
+		assertTrue(! fanfou.existsFriendship(myself.getId(), user.getId()) );
+		
+		// 移除黑名单
+		fanfou.destroyBlock(user.getId());
+		// 手动恢复关注
+		fanfou.createFriendship(user.getId());
+		
+		assertTrue( fanfou.existsFriendship(myself.getId(), user.getId()) );
+		
+	}
+	
+	// 验证用户
+	// 错误用户名/密码情况的测试单独在UserTest中
+	@Test
+	public void testVerifyCredentials() {
+		
+		try {
+			User user = fanfou.verifyCredentials();
+		} catch (WeiboException e) {
+			// 成功返回code 200
+			Assert.assertEquals(200, e.getStatusCode());
+			fail("用户名/密码错误，登录失败。lds");
+		}
+		
+	}
+	
+	// 测试API是否正常
+	@Test
+	public void testTest() throws Exception {
+		assertTrue(fanfou.test());
+	}
+	
+	// 保存搜索相关的方法
+	@Test
+	public void testSavedSearch() throws Exception {
+		
+		// query word
+		String word = msg;
+		
+		// create/show saved search
+		SavedSearch save = fanfou.createSavedSearch(word);
+		SavedSearch save_search = fanfou.showSavedSearch(save.getId());
+		Assert.assertEquals(save, save_search);
+		
+		// get saved search
+		List<SavedSearch> search = fanfou.getSavedSearches();
+		assertTrue(search.size() > 0);
+		Assert.assertEquals(word, search.get(search.size()-1).getQuery());
+		
+		// destory saved search
+		for (SavedSearch s : search) {
+//			System.out.println(s.getName() + s.getId());
+			fanfou.destroySavedSearch(s.getId());
+		}
+	}
 	
 	@Test
 	public void test() throws Exception {}

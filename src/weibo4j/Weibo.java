@@ -2476,6 +2476,11 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
 
     /**
      * Returns an HTTP 200 OK response code and a representation of the requesting user if authentication was successful; returns a 401 status code and an error message if not.  Use this method to test if supplied user credentials are valid.
+     * 注意： 如果使用 错误的用户名/密码 多次登录后，饭否会锁住帐号，必须去fandou.com登录（输入验证码）
+     * 
+     * 登录成功返回 200 code
+     * 登录失败返回 401 code
+     * 使用WeiboException的getStatusCode取得code
      *
      * @return user
      * @since Weibo4J 2.0.0
@@ -2781,6 +2786,8 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @return User
      * @throws WeiboException when Weibo service or network is unavailable
      * @since Weibo4J 2.0.1
+     * @deprecated 饭否该功能暂时关闭
+     * @todo 等待该功能开放
      */
     public User enableNotification(String id) throws WeiboException {
 //        return new User(http.post(getBaseURL() + "notifications/follow/" + id + ".xml", true), this);
@@ -2803,6 +2810,7 @@ public class Weibo extends WeiboSupport implements java.io.Serializable {
      * @param id String
      * @return User
      * @throws WeiboException when Weibo service or network is unavailable
+     * @deprecated 饭否该功能暂时关闭
      * @since Weibo4J 2.0.1
      */
     public User disableNotification(String id) throws WeiboException {
